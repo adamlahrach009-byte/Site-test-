@@ -1,0 +1,272 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Quick photo",
+    "theme_version": "1.0.0",
+    "theme_author": "Quick photo",
+    "theme_documentation_url": "https://help.shopify.com/fr/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/fr"
+  },
+  {
+    "name": "t:settings_schema.colors.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.colors.settings.header_base.content"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "t:settings_schema.colors.settings.color_background.label",
+        "default": "#FFFDF8"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "t:settings_schema.colors.settings.color_text.label",
+        "default": "#26323A"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "t:settings_schema.colors.settings.color_primary.label",
+        "info": "t:settings_schema.colors.settings.color_primary.info",
+        "default": "#2E6B66"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_text",
+        "label": "t:settings_schema.colors.settings.color_primary_text.label",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.colors.settings.header_accents.content"
+      },
+      {
+        "type": "color",
+        "id": "color_mint",
+        "label": "t:settings_schema.colors.settings.color_mint.label",
+        "default": "#E3ECE9"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "t:settings_schema.colors.settings.color_accent.label",
+        "default": "#FFD66B"
+      },
+      {
+        "type": "color",
+        "id": "color_header",
+        "label": "t:settings_schema.colors.settings.color_header.label",
+        "default": "#FFF6E3"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.typography.name",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "t:settings_schema.typography.settings.heading_font.label",
+        "info": "t:settings_schema.typography.settings.heading_font.info",
+        "default": "poppins_n6"
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "t:settings_schema.typography.settings.heading_scale.label",
+        "min": 80,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "label": "t:settings_schema.typography.settings.body_font.label",
+        "info": "t:settings_schema.typography.settings.body_font.info",
+        "default": "inter_n4"
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "label": "t:settings_schema.typography.settings.body_scale.label",
+        "min": 90,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.layout.name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "t:settings_schema.layout.settings.page_width.label",
+        "min": 1000,
+        "max": 1500,
+        "step": 20,
+        "unit": "px",
+        "default": 1200
+      },
+      {
+        "type": "range",
+        "id": "card_radius",
+        "label": "t:settings_schema.layout.settings.card_radius.label",
+        "min": 12,
+        "max": 28,
+        "step": 2,
+        "unit": "px",
+        "default": 22
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.layout.settings.header_motion.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_reveal",
+        "label": "t:settings_schema.layout.settings.animations_reveal.label",
+        "info": "t:settings_schema.layout.settings.animations_reveal.info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_decor",
+        "label": "t:settings_schema.layout.settings.animations_decor.label",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.contact.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.contact.settings.paragraph.content"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "t:settings_schema.contact.settings.contact_phone.label",
+        "default": "+32 485 28 95 97"
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "t:settings_schema.contact.settings.contact_email.label",
+        "info": "t:settings_schema.contact.settings.contact_email.info"
+      },
+      {
+        "type": "url",
+        "id": "contact_link",
+        "label": "t:settings_schema.contact.settings.contact_link.label",
+        "info": "t:settings_schema.contact.settings.contact_link.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.floating_cta.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "floating_cta_enable",
+        "label": "t:settings_schema.floating_cta.settings.floating_cta_enable.label",
+        "info": "t:settings_schema.floating_cta.settings.floating_cta_enable.info",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "floating_cta_label",
+        "label": "t:settings_schema.floating_cta.settings.floating_cta_label.label",
+        "default": "Proposer une date"
+      },
+      {
+        "type": "url",
+        "id": "floating_cta_link",
+        "label": "t:settings_schema.floating_cta.settings.floating_cta_link.label",
+        "info": "t:settings_schema.floating_cta.settings.floating_cta_link.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "floating_cta_phone",
+        "label": "t:settings_schema.floating_cta.settings.floating_cta_phone.label",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.seo.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.seo.settings.paragraph.content"
+      },
+      {
+        "type": "text",
+        "id": "business_name",
+        "label": "t:settings_schema.seo.settings.business_name.label",
+        "default": "Quick photo"
+      },
+      {
+        "type": "textarea",
+        "id": "business_description",
+        "label": "t:settings_schema.seo.settings.business_description.label",
+        "info": "t:settings_schema.seo.settings.business_description.info",
+        "default": "Photographe pour les crèches en Belgique : portraits individuels, fratries, photos de groupe par section, séances de Noël et de Pâques. Gratuit pour la crèche, et une partie des ventes lui est reversée."
+      },
+      {
+        "type": "text",
+        "id": "area_served",
+        "label": "t:settings_schema.seo.settings.area_served.label",
+        "default": "Belgique"
+      },
+      {
+        "type": "image_picker",
+        "id": "social_image",
+        "label": "t:settings_schema.seo.settings.social_image.label",
+        "info": "t:settings_schema.seo.settings.social_image.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "structured_data",
+        "label": "t:settings_schema.seo.settings.structured_data.label",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.social.name",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "t:settings_schema.social.settings.social_instagram.label",
+        "placeholder": "https://www.instagram.com/…"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "t:settings_schema.social.settings.social_facebook.label",
+        "placeholder": "https://www.facebook.com/…"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.favicon.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings_schema.favicon.settings.favicon.label",
+        "info": "t:settings_schema.favicon.settings.favicon.info"
+      }
+    ]
+  }
+]

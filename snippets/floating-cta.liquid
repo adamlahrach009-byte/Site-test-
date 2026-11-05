@@ -1,0 +1,17 @@
+{%- comment -%}
+  Bouton « Proposer une date » flottant, visible uniquement sur mobile.
+{%- endcomment -%}
+{%- if settings.floating_cta_enable and settings.floating_cta_label != blank -%}
+  {%- capture floating_url -%}{% render 'contact-url', link: settings.floating_cta_link %}{%- endcapture -%}
+  <div class="floating-cta" data-floating-cta>
+    <a class="btn btn--primary floating-cta__btn" href="{{ floating_url | strip }}">
+      {% render 'icon', name: 'calendar-heart' %}
+      <span>{{ settings.floating_cta_label | escape }}</span>
+    </a>
+    {%- if settings.floating_cta_phone and settings.contact_phone != blank -%}
+      <a class="floating-cta__phone" href="{% render 'phone-href' %}" aria-label="{{ 'general.call' | t: phone: settings.contact_phone }}">
+        {% render 'icon', name: 'phone' %}
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

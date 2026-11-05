@@ -1,0 +1,29 @@
+{%- comment -%}
+  Visionneuse (lightbox) unique, partagée par toutes les galeries.
+  Accessible : focus géré par <dialog>, Échap, flèches du clavier, swipe sur mobile.
+{%- endcomment -%}
+<dialog
+  class="lightbox"
+  id="Lightbox"
+  aria-label="{{ 'gallery.lightbox_label' | t }}"
+  data-lightbox
+  data-script="{{ 'lightbox.js' | asset_url }}"
+  data-counter="{{ 'gallery.counter' | t: current: '[current]', total: '[total]' | escape }}"
+>
+  <div class="lightbox__stage" data-lightbox-stage>
+    <figure class="lightbox__figure">
+      <div class="lightbox__media" data-lightbox-media></div>
+      <figcaption class="lightbox__caption" data-lightbox-caption hidden></figcaption>
+    </figure>
+  </div>
+  <p class="lightbox__counter" data-lightbox-counter aria-live="polite"></p>
+  <button type="button" class="lightbox__btn lightbox__close" data-lightbox-close aria-label="{{ 'gallery.close' | t }}" autofocus>
+    {% render 'icon', name: 'close' %}
+  </button>
+  <button type="button" class="lightbox__btn lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="{{ 'gallery.previous' | t }}">
+    {% render 'icon', name: 'chevron-left' %}
+  </button>
+  <button type="button" class="lightbox__btn lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="{{ 'gallery.next' | t }}">
+    {% render 'icon', name: 'chevron-right' %}
+  </button>
+</dialog>

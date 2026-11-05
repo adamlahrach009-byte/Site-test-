@@ -1,0 +1,160 @@
+{
+  "settings_schema": {
+    "colors": {
+      "name": "Couleurs",
+      "settings": {
+        "header_base": {
+          "content": "Couleurs de base"
+        },
+        "color_background": {
+          "label": "Fond principal (crème)"
+        },
+        "color_text": {
+          "label": "Texte"
+        },
+        "color_primary": {
+          "label": "Couleur principale (vert)",
+          "info": "Boutons, liens et accents. Gardez une couleur foncée pour un bon contraste."
+        },
+        "color_primary_text": {
+          "label": "Texte des boutons principaux"
+        },
+        "header_accents": {
+          "content": "Couleurs d'accent"
+        },
+        "color_mint": {
+          "label": "Menthe (fonds de sections)"
+        },
+        "color_accent": {
+          "label": "Jaune doux (petites touches)"
+        },
+        "color_header": {
+          "label": "Crème chaud (en-tête)"
+        }
+      }
+    },
+    "typography": {
+      "name": "Typographie",
+      "settings": {
+        "heading_font": {
+          "label": "Police des titres",
+          "info": "Recommandé : Poppins, semi-gras (600)."
+        },
+        "heading_scale": {
+          "label": "Taille des titres"
+        },
+        "body_font": {
+          "label": "Police du texte",
+          "info": "Recommandé : Inter, normal (400)."
+        },
+        "body_scale": {
+          "label": "Taille du texte"
+        }
+      }
+    },
+    "layout": {
+      "name": "Mise en page",
+      "settings": {
+        "page_width": {
+          "label": "Largeur maximale du contenu"
+        },
+        "card_radius": {
+          "label": "Arrondi des cartes"
+        },
+        "header_motion": {
+          "content": "Animations"
+        },
+        "animations_reveal": {
+          "label": "Faire apparaître les contenus en douceur au défilement",
+          "info": "Désactivé automatiquement pour les visiteurs qui ont choisi de réduire les animations."
+        },
+        "animations_decor": {
+          "label": "Animer légèrement les formes décoratives"
+        }
+      }
+    },
+    "contact": {
+      "name": "Coordonnées",
+      "settings": {
+        "paragraph": {
+          "content": "Ces coordonnées sont utilisées dans l'en-tête, le pied de page, les appels à l'action et la page Contact."
+        },
+        "contact_phone": {
+          "label": "Téléphone"
+        },
+        "contact_email": {
+          "label": "E-mail (facultatif)",
+          "info": "Laissez vide pour ne pas afficher d'adresse e-mail."
+        },
+        "contact_link": {
+          "label": "Page « Proposer une date »",
+          "info": "Laissez vide pour utiliser la page /pages/contact."
+        }
+      }
+    },
+    "floating_cta": {
+      "name": "Bouton flottant (mobile)",
+      "settings": {
+        "floating_cta_enable": {
+          "label": "Afficher le bouton flottant sur mobile",
+          "info": "Apparaît après un léger défilement. Masqué sur la page Contact."
+        },
+        "floating_cta_label": {
+          "label": "Texte du bouton"
+        },
+        "floating_cta_link": {
+          "label": "Lien du bouton",
+          "info": "Laissez vide pour utiliser la page « Proposer une date »."
+        },
+        "floating_cta_phone": {
+          "label": "Ajouter un bouton d'appel"
+        }
+      }
+    },
+    "seo": {
+      "name": "Référencement (SEO)",
+      "settings": {
+        "paragraph": {
+          "content": "Informations utilisées par Google et lors des partages sur les réseaux sociaux. Le titre et la description de la page d'accueil se règlent dans Boutique en ligne > Préférences."
+        },
+        "business_name": {
+          "label": "Nom de l'activité"
+        },
+        "business_description": {
+          "label": "Description de l'activité",
+          "info": "Utilisée dans les données structurées et comme description par défaut."
+        },
+        "area_served": {
+          "label": "Zone desservie"
+        },
+        "social_image": {
+          "label": "Image de partage par défaut",
+          "info": "1200 × 630 px recommandé. Affichée lors des partages (Facebook, WhatsApp…)."
+        },
+        "structured_data": {
+          "label": "Ajouter les données structurées « ProfessionalService »"
+        }
+      }
+    },
+    "social": {
+      "name": "Réseaux sociaux",
+      "settings": {
+        "social_instagram": {
+          "label": "Lien Instagram"
+        },
+        "social_facebook": {
+          "label": "Lien Facebook"
+        }
+      }
+    },
+    "favicon": {
+      "name": "Favicon",
+      "settings": {
+        "favicon": {
+          "label": "Image du favicon",
+          "info": "Image carrée, 96 × 96 px minimum."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "eyebrow": "Erreur 404",
+        "heading": "Cette page joue à <em>cache-cache</em>",
+        "text": "<p>Comme un tout-petit bien caché pendant la séance photo, la page que vous cherchez reste introuvable. Pas d'inquiétude : voici de quoi retrouver votre chemin.</p>",
+        "caption": "Introuvable…",
+        "button_1_label": "Retour à l'accueil",
+        "button_2_label": "Proposer une date",
+        "button_2_link": "/pages/contact",
+        "background": "cream",
+        "padding_top": 80,
+        "padding_bottom": 112
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

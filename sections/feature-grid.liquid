@@ -1,0 +1,193 @@
+{%- assign s = section.settings -%}
+<section class="section features bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'a' %}
+  <div class="page-width">
+    {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: s.heading_align %}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="card-grid card-grid--{{ s.columns }}" role="list">
+        {%- for block in section.blocks -%}
+          <li class="feature-card card" data-reveal style="--reveal-order: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            <span class="icon-bubble icon-bubble--lg icon-bubble--tone-{{ forloop.index0 | modulo: 4 }}">
+              {% render 'icon', name: block.settings.icon %}
+            </span>
+            {%- if block.settings.title != blank -%}
+              <h3 class="feature-card__title h4">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="feature-card__text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cartes avec icônes",
+  "tag": "div",
+  "class": "section-features",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Pour les crèches"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Simple pour votre équipe, <em>précieux</em> pour les familles"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Une séance photo en crèche, sans charge supplémentaire pour votre équipe, et de jolis souvenirs pour les parents.</p>"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Alignement du titre",
+      "default": "center",
+      "options": [
+        { "value": "center", "label": "Centré" },
+        { "value": "left", "label": "À gauche" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Cartes par ligne (ordinateur)",
+      "default": "4",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "mint",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" },
+        { "value": "green", "label": "Vert" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Carte",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "heart",
+          "options": [
+            { "value": "gift", "label": "Cadeau" },
+            { "value": "hand-heart", "label": "Main et cœur" },
+            { "value": "sparkles", "label": "Étincelles" },
+            { "value": "calendar-heart", "label": "Calendrier (cœur)" },
+            { "value": "calendar", "label": "Calendrier" },
+            { "value": "camera", "label": "Appareil photo" },
+            { "value": "users", "label": "Groupe" },
+            { "value": "smile", "label": "Sourire" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "shield-check", "label": "Bouclier" },
+            { "value": "lock", "label": "Cadenas" },
+            { "value": "eye-off", "label": "Œil barré" },
+            { "value": "file-check", "label": "Document validé" },
+            { "value": "user-check", "label": "Personne validée" },
+            { "value": "trash", "label": "Corbeille" },
+            { "value": "check-circle", "label": "Coche" },
+            { "value": "star", "label": "Étoile" },
+            { "value": "tree", "label": "Sapin" },
+            { "value": "egg", "label": "Œuf de Pâques" },
+            { "value": "ornament", "label": "Boule de Noël" },
+            { "value": "images", "label": "Photos" },
+            { "value": "home", "label": "Maison" },
+            { "value": "moon", "label": "Lune (sieste)" },
+            { "value": "clock", "label": "Horloge" },
+            { "value": "package", "label": "Colis" },
+            { "value": "message", "label": "Message" },
+            { "value": "leaf", "label": "Feuille" },
+            { "value": "sun", "label": "Soleil" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Titre de la carte"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Décrivez cet avantage en une ou deux phrases.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cartes avec icônes",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "gift", "title": "Gratuit pour la crèche" } },
+        { "type": "card", "settings": { "icon": "hand-heart", "title": "Une partie reversée à la crèche" } },
+        { "type": "card", "settings": { "icon": "sparkles", "title": "Rien à gérer pour votre équipe" } },
+        { "type": "card", "settings": { "icon": "shield-check", "title": "Vie privée respectée" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+{%- if section.settings.text != blank -%}
+  {%- liquid
+    assign tag = 'p'
+    if section.settings.link != blank
+      assign tag = 'a'
+    endif
+  -%}
+  <aside class="announcement announcement--{{ section.settings.style }}" aria-label="{{ 'accessibility.announcement' | t }}">
+    <div class="page-width announcement__inner">
+      <{{ tag }} class="announcement__text"{% if tag == 'a' %} href="{{ section.settings.link }}"{% endif %}>
+        {%- if section.settings.icon != 'none' -%}
+          {% render 'icon', name: section.settings.icon, class: 'announcement__icon' %}
+        {%- endif -%}
+        <span>{{ section.settings.text }}</span>
+        {%- if tag == 'a' -%}
+          {% render 'icon', name: 'arrow-right', class: 'announcement__arrow' %}
+        {%- endif -%}
+      </{{ tag }}>
+    </div>
+  </aside>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Barre d'annonce",
+  "tag": "div",
+  "class": "section-announcement",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Message",
+      "default": "Séances de Noël et de Pâques : proposez dès maintenant une date pour votre crèche"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Lien (facultatif)"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icône",
+      "default": "sparkles",
+      "options": [
+        { "value": "none", "label": "Aucune" },
+        { "value": "sparkles", "label": "Étincelles" },
+        { "value": "calendar-heart", "label": "Calendrier" },
+        { "value": "gift", "label": "Cadeau" },
+        { "value": "tree", "label": "Sapin" },
+        { "value": "egg", "label": "Œuf de Pâques" },
+        { "value": "heart", "label": "Cœur" },
+        { "value": "camera", "label": "Appareil photo" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Couleur",
+      "default": "green",
+      "options": [
+        { "value": "green", "label": "Vert" },
+        { "value": "yellow", "label": "Jaune doux" },
+        { "value": "mint", "label": "Menthe" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Barre d'annonce"
+    }
+  ]
+}
+{% endschema %}

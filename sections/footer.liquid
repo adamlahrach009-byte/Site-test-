@@ -1,0 +1,240 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign use_menu = false
+  if menu != blank and menu.links.size > 0
+    assign use_menu = true
+  endif
+-%}
+{%- capture cta_url -%}{% render 'contact-url', link: section.settings.cta_link %}{%- endcapture -%}
+
+<footer class="site-footer bg-{{ section.settings.background }}">
+  {% render 'section-decor', wave: section.settings.wave, decor: false %}
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        {% render 'logo', logo: section.settings.logo, logo_width: section.settings.logo_width, text: section.settings.brand_name, class: 'site-footer__logo' %}
+        {%- if section.settings.tagline != blank -%}
+          <div class="site-footer__tagline rte">{{ section.settings.tagline }}</div>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank -%}
+          <a class="btn btn--primary btn--sm" href="{{ cta_url | strip }}">{{ section.settings.cta_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      <nav class="site-footer__col" aria-labelledby="FooterMenu-{{ section.id }}">
+        <h2 class="site-footer__title" id="FooterMenu-{{ section.id }}">{{ section.settings.menu_title | escape }}</h2>
+        <ul class="site-footer__list" role="list">
+          {%- if use_menu -%}
+            {%- for link in menu.links -%}
+              <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.label != blank -%}
+                <li {{ block.shopify_attributes }}><a href="{{ block.settings.link | default: routes.root_url }}">{{ block.settings.label | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title">{{ section.settings.contact_title | escape }}</h2>
+        <ul class="site-footer__list site-footer__list--contact" role="list">
+          {%- if settings.contact_phone != blank -%}
+            <li>
+              <a href="{% render 'phone-href' %}" class="site-footer__contact">
+                <span class="icon-bubble icon-bubble--sm">{% render 'icon', name: 'phone' %}</span>
+                <span>{{ settings.contact_phone }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+          {%- if settings.contact_email != blank -%}
+            <li>
+              <a href="mailto:{{ settings.contact_email }}" class="site-footer__contact">
+                <span class="icon-bubble icon-bubble--sm">{% render 'icon', name: 'mail' %}</span>
+                <span>{{ settings.contact_email }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+        </ul>
+        {%- if settings.social_instagram != blank or settings.social_facebook != blank -%}
+          <ul class="site-footer__social" role="list">
+            {%- if settings.social_instagram != blank -%}
+              <li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram ({{ 'accessibility.new_window' | t }})">{% render 'icon', name: 'instagram' %}</a></li>
+            {%- endif -%}
+            {%- if settings.social_facebook != blank -%}
+              <li><a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook ({{ 'accessibility.new_window' | t }})">{% render 'icon', name: 'facebook' %}</a></li>
+            {%- endif -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_policies and shop.policies.size > 0 -%}
+        <div class="site-footer__col">
+          <h2 class="site-footer__title">{{ section.settings.policies_title | escape }}</h2>
+          <ul class="site-footer__list" role="list">
+            {%- for policy in shop.policies -%}
+              <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="site-footer__bottom">
+      {%- liquid
+        assign current_year = 'now' | date: '%Y'
+        assign copyright_name = section.settings.brand_name | default: shop.name
+      -%}
+      <p>{{ 'footer.copyright' | t: year: current_year, shop: copyright_name }}</p>
+      {%- if section.settings.bottom_text != blank -%}
+        <p>{{ section.settings.bottom_text }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "tag": "div",
+  "class": "section-footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Marque"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Image du logo (facultatif)"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Largeur de l'image du logo",
+      "min": 80,
+      "max": 260,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Nom",
+      "default": "Quick photo"
+    },
+    {
+      "type": "richtext",
+      "id": "tagline",
+      "label": "Présentation",
+      "default": "<p>Photographe pour les crèches. Gratuit pour la crèche, et une partie des ventes lui est reversée.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texte du bouton",
+      "default": "Proposer une date"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "header",
+      "content": "Colonnes"
+    },
+    {
+      "type": "text",
+      "id": "menu_title",
+      "label": "Titre du menu",
+      "default": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu (facultatif)",
+      "info": "Si vous choisissez un menu, il remplace les liens ajoutés comme blocs."
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Titre de la colonne contact",
+      "default": "Contact"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies",
+      "label": "Afficher les liens vers les politiques",
+      "info": "Les politiques se rédigent dans Paramètres > Politiques.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "policies_title",
+      "label": "Titre de la colonne politiques",
+      "default": "Informations"
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Texte en bas de page",
+      "default": "Photographe pour les crèches en Belgique"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "mint",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" },
+        { "value": "green", "label": "Vert" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Lien",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Texte",
+          "default": "Accueil"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pied de page"
+    }
+  ]
+}
+{% endschema %}

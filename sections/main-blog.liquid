@@ -1,0 +1,59 @@
+{%- paginate blog.articles by section.settings.articles_per_page -%}
+  <section class="section blog-main bg-cream" style="--pt: 64; --pb: 96;">
+    {% render 'section-decor', decor: true, wave: false, variant: 'hero' %}
+    <div class="page-width">
+      <header class="page-hero page-hero--center">
+        <h1 class="h1 page-hero__title">{{ blog.title | escape }}</h1>
+      </header>
+
+      {%- if blog.articles.size > 0 -%}
+        <ul class="card-grid card-grid--3 blog-grid" role="list">
+          {%- for article in blog.articles -%}
+            <li>
+              <article class="article-card card">
+                <a class="article-card__link" href="{{ article.url }}">
+                  <div class="article-card__media">
+                    {%- if article.image -%}
+                      {%- assign card_alt = article.image.alt | default: article.title -%}
+                      {{ article.image | image_url: width: 900 | image_tag: widths: '320, 480, 640, 800, 900', sizes: '(min-width: 990px) 380px, (min-width: 750px) 45vw, 92vw', loading: 'lazy', alt: card_alt, class: 'article-card__img' }}
+                    {%- else -%}
+                      {% render 'placeholder', icon: 'images' %}
+                    {%- endif -%}
+                  </div>
+                  <div class="article-card__body">
+                    <p class="article-card__date">{{ article.published_at | time_tag: format: 'date' }}</p>
+                    <h2 class="h4 article-card__title">{{ article.title | escape }}</h2>
+                    <p class="article-card__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 26 }}</p>
+                    <span class="article-card__more">{{ 'blogs.read_more' | t }} {% render 'icon', name: 'arrow-right' %}</span>
+                  </div>
+                </a>
+              </article>
+            </li>
+          {%- endfor -%}
+        </ul>
+        {% render 'pagination', paginate: paginate %}
+      {%- else -%}
+        <p class="empty-state">{{ 'blogs.empty' | t }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "div",
+  "class": "section-main-blog",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "Articles par page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 9
+    }
+  ]
+}
+{% endschema %}

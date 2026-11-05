@@ -1,0 +1,19 @@
+{%- comment -%}
+  Formes organiques douces et bord ondulé, en arrière-plan d'une section.
+  Accepte :
+  - decor {Boolean} : afficher les formes
+  - wave {Boolean} : bord ondulé en haut de la section
+  - variant {String} : 'a' | 'b' | 'c' (disposition des formes)
+{%- endcomment -%}
+{%- if wave -%}
+  <svg class="section-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,30 C160,54 340,60 540,42 C740,24 900,2 1090,6 C1250,9 1360,24 1440,34 L1440,56 L0,56 Z"/></svg>
+{%- endif -%}
+{%- if decor -%}
+  <div class="section-decor section-decor--{{ variant | default: 'a' }}" aria-hidden="true">
+    <svg class="blob blob--1" viewBox="0 0 200 200" focusable="false"><path d="M54.1,-71.2C68.4,-62.3,77.3,-44.7,80.6,-26.9C83.9,-9.1,81.6,8.9,74.6,24.4C67.6,39.9,55.9,52.9,41.8,61.9C27.7,70.9,11.2,75.9,-5.6,77.6C-22.4,79.3,-39.5,77.7,-52.6,68.9C-65.7,60.1,-74.8,44.1,-78.3,27.4C-81.8,10.7,-79.7,-6.7,-73.1,-21.6C-66.5,-36.5,-55.4,-48.9,-42.2,-58.1C-29,-67.3,-14.5,-73.3,2.4,-76.6C19.3,-79.9,39.8,-80.1,54.1,-71.2Z" transform="translate(100 100)"/></svg>
+    <svg class="blob blob--2" viewBox="0 0 200 200" focusable="false"><path d="M47.6,-62.4C60.8,-53.4,70.1,-38.7,74.6,-22.9C79.1,-7.1,78.8,9.8,72.6,24.1C66.4,38.4,54.3,50.1,40.5,58.5C26.7,66.9,11.2,72,-4.9,74.4C-21,76.8,-37.7,76.5,-50.7,68.5C-63.7,60.5,-73,44.8,-77.2,28.1C-81.4,11.4,-80.5,-6.3,-74.2,-21.4C-67.9,-36.5,-56.2,-49,-42.6,-58.1C-29,-67.2,-14.5,-72.9,1,-74.3C16.5,-75.7,34.4,-71.4,47.6,-62.4Z" transform="translate(100 100)"/></svg>
+    <span class="decor-dot decor-dot--1"></span>
+    <span class="decor-dot decor-dot--2"></span>
+    <svg class="decor-squiggle" viewBox="0 0 120 24" focusable="false"><path d="M2 14c9-9 18-9 27 0s18 9 27 0 18-9 27 0 18 9 27 0" fill="none" stroke-width="3.5" stroke-linecap="round"/></svg>
+  </div>
+{%- endif -%}

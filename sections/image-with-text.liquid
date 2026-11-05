@@ -1,0 +1,236 @@
+{%- assign s = section.settings -%}
+{%- capture button_url -%}{% render 'contact-url', link: s.button_link %}{%- endcapture -%}
+
+<section class="section split bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'b' %}
+  <div class="page-width split__grid split__grid--image-{{ s.image_position }}">
+    <div class="split__media" data-reveal>
+      <div class="split__polaroid">
+        {% render 'polaroid',
+          image: s.image,
+          alt: s.alt,
+          ratio: s.image_ratio,
+          rotate: s.rotate,
+          tape: 'yellow',
+          caption: s.caption,
+          widths: '320, 440, 560, 720, 880, 1040, 1200',
+          sizes: '(min-width: 990px) 480px, 86vw'
+        %}
+      </div>
+      <span class="split__sticker" aria-hidden="true">{% render 'icon', name: 'heart' %}</span>
+    </div>
+
+    <div class="split__content" data-reveal style="--reveal-order: 1;">
+      {%- if s.eyebrow != blank -%}
+        <p class="eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="h2 hl split__title">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.text != blank -%}
+        <div class="split__text rte">{{ s.text }}</div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="check-list" role="list">
+          {%- for block in section.blocks -%}
+            <li class="check-list__item" {{ block.shopify_attributes }}>
+              <span class="check-list__icon">{% render 'icon', name: 'check' %}</span>
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if s.note != blank -%}
+        <div class="note-card">
+          <span class="note-card__icon">{% render 'icon', name: 'ornament' %}</span>
+          <div class="note-card__text rte">{{ s.note }}</div>
+        </div>
+      {%- endif -%}
+
+      {%- if s.button_label != blank -%}
+        <a class="btn btn--primary btn--lg split__button" href="{{ button_url | strip }}">
+          <span>{{ s.button_label | escape }}</span>
+          {% render 'icon', name: 'arrow-right' %}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image et texte",
+  "tag": "div",
+  "class": "section-split",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Texte alternatif",
+      "info": "Laissez vide pour utiliser celui de l'image."
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Légende (facultatif)"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Format de la photo",
+      "default": "portrait",
+      "options": [
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Carré" },
+        { "value": "landscape", "label": "Paysage" },
+        { "value": "natural", "label": "Format d'origine" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Position de la photo (ordinateur)",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "À gauche" },
+        { "value": "right", "label": "À droite" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "rotate",
+      "label": "Inclinaison de la photo",
+      "min": -6,
+      "max": 6,
+      "step": 1,
+      "unit": "°",
+      "default": -3
+    },
+    {
+      "type": "header",
+      "content": "Texte"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Côté parents"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Les commandes des parents ? <em>On s'en occupe.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Choisir les photos, proposer les cartes ou les boules de Noël, passer les commandes : nous nous en chargeons.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Encadré",
+      "default": "<p>Les supports (tirages, cartes de Noël, boules de Noël…) se décident ensemble.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton (facultatif)"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point de liste",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "Un point important"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image et texte",
+      "blocks": [
+        { "type": "point", "settings": { "text": "Nous présentons les photos aux parents" } },
+        { "type": "point", "settings": { "text": "Nous gérons la vente et les commandes" } },
+        { "type": "point", "settings": { "text": "Rien à gérer pour votre équipe" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

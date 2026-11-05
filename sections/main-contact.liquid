@@ -1,0 +1,538 @@
+{%- liquid
+  assign s = section.settings
+  assign form_id = 'ContactForm-' | append: section.id
+  assign has_email_block = false
+  for block in section.blocks
+    if block.type == 'email'
+      assign has_email_block = true
+    endif
+  endfor
+-%}
+<script src="{{ 'contact-form.js' | asset_url }}" defer="defer"></script>
+
+<section class="section contact bg-{{ s.background }}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: false, variant: 'hero' %}
+  <div class="page-width">
+    <header class="page-hero page-hero--center">
+      {%- if s.eyebrow != blank -%}
+        <p class="eyebrow hero-anim" style="--d: 0;">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="h1 hl page-hero__title hero-anim" style="--d: 1;">{{ s.heading | default: page.title }}</h1>
+      {%- if s.intro != blank -%}
+        <div class="page-hero__text rte hero-anim" style="--d: 2;">{{ s.intro }}</div>
+      {%- endif -%}
+      {%- if s.show_page_content and page.content != blank -%}
+        <div class="page-hero__text rte">{{ page.content }}</div>
+      {%- endif -%}
+    </header>
+
+    <div class="contact__grid">
+      <div class="contact__main card card--form hero-anim" style="--d: 3;">
+        {%- form 'contact', id: form_id, class: 'contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-status form-status--success" role="status" tabindex="-1" data-form-status>
+              <span class="form-status__icon">{% render 'icon', name: 'check' %}</span>
+              <h2 class="h3 form-status__title">{{ s.success_title | escape }}</h2>
+              <div class="rte">{{ s.success_text }}</div>
+              <a class="btn btn--secondary" href="{{ routes.root_url }}">
+                {% render 'icon', name: 'arrow-left' %}
+                <span>{{ 'general.back_home' | t }}</span>
+              </a>
+            </div>
+          {%- else -%}
+            {%- if form.errors -%}
+              <div class="form-status form-status--error" role="alert" tabindex="-1" data-form-status>
+                <h2 class="h4 form-status__title">{{ s.error_title | escape }}</h2>
+                <p>{{ 'contact.error_intro' | t }}</p>
+                <ul>
+                  {%- for field in form.errors -%}
+                    <li>
+                      {%- if field == 'form' -%}
+                        {{ form.errors.messages[field] }}
+                      {%- else -%}
+                        <a href="#{{ form_id }}-email">{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</a>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+
+            {%- if s.form_title != blank -%}
+              <h2 class="h3 contact-form__title">{{ s.form_title | escape }}</h2>
+            {%- endif -%}
+            <p class="contact-form__required">{{ 'contact.required_note' | t }}</p>
+
+            <div class="form-grid">
+              {%- for block in section.blocks -%}
+                {%- liquid
+                  assign b = block.settings
+                  assign label = b.label | strip
+                  assign field_id = form_id | append: '-' | append: block.id
+                  assign key = label | remove: '*' | strip | escape
+                -%}
+                {%- case block.type -%}
+                  {%- when 'email' -%}
+                    {%- if label == blank -%}
+                      {%- assign label = 'contact.email_label' | t -%}
+                    {%- endif -%}
+                    <div class="field field--{{ b.width }}" {{ block.shopify_attributes }}>
+                      <label class="field__label" for="{{ form_id }}-email">
+                        {{- label -}}
+                        <span class="field__required" aria-hidden="true">*</span>
+                      </label>
+                      <input
+                        class="field__input"
+                        id="{{ form_id }}-email"
+                        type="email"
+                        name="contact[email]"
+                        autocomplete="email"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        value="{{ form.email }}"
+                        required
+                        aria-required="true"
+                        {% if b.placeholder != blank %}placeholder="{{ b.placeholder | escape }}"{% endif %}
+                        {% if form.errors contains 'email' %}aria-invalid="true" aria-describedby="{{ form_id }}-email-error"{% endif %}
+                      >
+                      {%- if form.errors contains 'email' -%}
+                        <p class="field__error" id="{{ form_id }}-email-error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'field' -%}
+                    {%- liquid
+                      assign input_type = 'text'
+                      assign autocomplete = ''
+                      assign inputmode = ''
+                      case b.field_type
+                        when 'name'
+                          assign autocomplete = 'name'
+                        when 'organization'
+                          assign autocomplete = 'organization'
+                        when 'tel'
+                          assign input_type = 'tel'
+                          assign autocomplete = 'tel'
+                        when 'city'
+                          assign autocomplete = 'address-level2'
+                        when 'number'
+                          assign input_type = 'number'
+                          assign inputmode = 'numeric'
+                          assign autocomplete = 'off'
+                      endcase
+                    -%}
+                    <div class="field field--{{ b.width }}" {{ block.shopify_attributes }}>
+                      <label class="field__label" for="{{ field_id }}">
+                        {{- label -}}
+                        {%- if b.required -%}<span class="field__required" aria-hidden="true">*</span>{%- endif -%}
+                      </label>
+                      <input
+                        class="field__input"
+                        id="{{ field_id }}"
+                        type="{{ input_type }}"
+                        name="contact[{{ key }}]"
+                        {% if autocomplete != blank %}autocomplete="{{ autocomplete }}"{% endif %}
+                        {% if inputmode != blank %}inputmode="{{ inputmode }}" min="1" step="1"{% endif %}
+                        {% if b.placeholder != blank %}placeholder="{{ b.placeholder | escape }}"{% endif %}
+                        {% if b.required %}required aria-required="true"{% endif %}
+                      >
+                    </div>
+
+                  {%- when 'textarea' -%}
+                    <div class="field field--full" {{ block.shopify_attributes }}>
+                      <label class="field__label" for="{{ field_id }}">
+                        {{- label -}}
+                        {%- if b.required -%}<span class="field__required" aria-hidden="true">*</span>{%- endif -%}
+                      </label>
+                      <textarea
+                        class="field__input field__input--textarea"
+                        id="{{ field_id }}"
+                        name="contact[{{ key }}]"
+                        rows="5"
+                        {% if b.placeholder != blank %}placeholder="{{ b.placeholder | escape }}"{% endif %}
+                        {% if b.required %}required aria-required="true"{% endif %}
+                      ></textarea>
+                    </div>
+
+                  {%- when 'choices' -%}
+                    {%- assign options = b.options | split: ',' -%}
+                    <fieldset class="field field--full choices" data-choices data-choices-name="contact[{{ key }}]" {{ block.shopify_attributes }}>
+                      <legend class="field__label">
+                        {{- label -}}
+                        {%- if b.hint != blank -%}<span class="field__hint">{{ b.hint | escape }}</span>{%- endif -%}
+                      </legend>
+                      <div class="choices__list">
+                        {%- for option in options -%}
+                          {%- assign option_label = option | strip -%}
+                          {%- if option_label != blank -%}
+                            <label class="choice">
+                              <input class="choice__input" type="checkbox" name="contact[{{ key }} – {{ option_label | escape }}]" value="{{ 'contact.yes' | t }}" data-choice-value="{{ option_label | escape }}">
+                              <span class="choice__pill">
+                                <span class="choice__check" aria-hidden="true">{% render 'icon', name: 'check' %}</span>
+                                {{ option_label | escape }}
+                              </span>
+                            </label>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                {%- endcase -%}
+              {%- endfor -%}
+
+              {%- unless has_email_block -%}
+                <div class="field field--full">
+                  <label class="field__label" for="{{ form_id }}-email">{{ 'contact.email_label' | t }}<span class="field__required" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required aria-required="true">
+                </div>
+              {%- endunless -%}
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary btn--lg" data-submit data-sending="{{ 'contact.sending' | t }}">
+                <span data-submit-label>{{ s.submit_label | escape }}</span>
+                {% render 'icon', name: 'arrow-right' %}
+              </button>
+              {%- if s.submit_note != blank -%}
+                <p class="form-actions__note">{{ s.submit_note | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <aside class="contact__aside">
+        {%- if s.phone_title != blank and settings.contact_phone != blank -%}
+          <div class="call-card hero-anim" style="--d: 4;">
+            <span class="call-card__icon" aria-hidden="true">{% render 'icon', name: 'phone' %}</span>
+            <h2 class="h4 call-card__title">{{ s.phone_title | escape }}</h2>
+            {%- if s.phone_text != blank -%}
+              <div class="call-card__text rte">{{ s.phone_text }}</div>
+            {%- endif -%}
+            <a class="call-card__number" href="{% render 'phone-href' %}">{{ settings.contact_phone }}</a>
+            {%- if settings.contact_email != blank -%}
+              <a class="call-card__email" href="mailto:{{ settings.contact_email }}">
+                {% render 'icon', name: 'mail' %}
+                <span>{{ settings.contact_email }}</span>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if s.point_1 != blank or s.point_2 != blank or s.point_3 != blank -%}
+          <ul class="reassure-list hero-anim" role="list" style="--d: 5;">
+            {%- if s.point_1 != blank -%}
+              <li><span class="reassure-list__icon">{% render 'icon', name: 'gift' %}</span><span>{{ s.point_1 | escape }}</span></li>
+            {%- endif -%}
+            {%- if s.point_2 != blank -%}
+              <li><span class="reassure-list__icon">{% render 'icon', name: 'sparkles' %}</span><span>{{ s.point_2 | escape }}</span></li>
+            {%- endif -%}
+            {%- if s.point_3 != blank -%}
+              <li><span class="reassure-list__icon">{% render 'icon', name: 'shield-check' %}</span><span>{{ s.point_3 | escape }}</span></li>
+            {%- endif -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if s.image != blank -%}
+          <div class="contact__polaroid">
+            {% render 'polaroid', image: s.image, ratio: 'square', rotate: 3, tape: 'mint', widths: '240, 320, 400, 520, 640', sizes: '(min-width: 990px) 320px, 70vw' %}
+          </div>
+        {%- endif -%}
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Formulaire de contact",
+  "tag": "div",
+  "class": "section-contact",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "En-tête de page"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Contact"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Proposer une date"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "<p>Une séance photo dans votre crèche vous tente ? Remplissez ce court formulaire : nous revenons vers vous pour convenir ensemble d'une date. C'est gratuit pour la crèche.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_page_content",
+      "label": "Afficher aussi le contenu de la page",
+      "info": "Le texte saisi dans Boutique en ligne > Pages.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Formulaire"
+    },
+    {
+      "type": "paragraph",
+      "content": "Les champs du formulaire sont des blocs : vous pouvez les modifier, les réorganiser ou en ajouter."
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Titre du formulaire",
+      "default": "Votre demande"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Texte du bouton d'envoi",
+      "default": "Envoyer ma demande"
+    },
+    {
+      "type": "text",
+      "id": "submit_note",
+      "label": "Note sous le bouton",
+      "default": "Nous revenons vers vous pour convenir ensemble d'une date."
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Titre du message de confirmation",
+      "default": "Merci, votre demande est bien envoyée !"
+    },
+    {
+      "type": "richtext",
+      "id": "success_text",
+      "label": "Texte du message de confirmation",
+      "default": "<p>Nous avons bien reçu votre proposition de date. Nous revenons vers vous pour en parler ensemble.</p>"
+    },
+    {
+      "type": "text",
+      "id": "error_title",
+      "label": "Titre du message d'erreur",
+      "default": "Oups, votre demande n'a pas pu être envoyée"
+    },
+    {
+      "type": "header",
+      "content": "Encadré téléphone"
+    },
+    {
+      "type": "text",
+      "id": "phone_title",
+      "label": "Titre",
+      "default": "Vous préférez téléphoner ?"
+    },
+    {
+      "type": "richtext",
+      "id": "phone_text",
+      "label": "Texte",
+      "default": "<p>Appelez-nous directement, nous répondons volontiers à vos questions.</p>"
+    },
+    {
+      "type": "text",
+      "id": "point_1",
+      "label": "Point rassurant 1",
+      "default": "Gratuit pour la crèche"
+    },
+    {
+      "type": "text",
+      "id": "point_2",
+      "label": "Point rassurant 2",
+      "default": "Rien à organiser pour votre équipe"
+    },
+    {
+      "type": "text",
+      "id": "point_3",
+      "label": "Point rassurant 3",
+      "default": "Vie privée respectée"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo polaroïd (facultatif)"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "field",
+      "name": "Champ texte",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Nouveau champ"
+        },
+        {
+          "type": "select",
+          "id": "field_type",
+          "label": "Type de champ",
+          "default": "text",
+          "options": [
+            { "value": "text", "label": "Texte" },
+            { "value": "name", "label": "Nom d'une personne" },
+            { "value": "organization", "label": "Nom d'établissement" },
+            { "value": "tel", "label": "Téléphone" },
+            { "value": "city", "label": "Commune" },
+            { "value": "number", "label": "Nombre" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Exemple affiché dans le champ"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Champ obligatoire",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Largeur (ordinateur)",
+          "default": "half",
+          "options": [
+            { "value": "half", "label": "Demi-largeur" },
+            { "value": "full", "label": "Pleine largeur" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "email",
+      "name": "E-mail",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Champ indispensable pour vous répondre : il est toujours obligatoire."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "E-mail"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Exemple affiché dans le champ"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Largeur (ordinateur)",
+          "default": "half",
+          "options": [
+            { "value": "half", "label": "Demi-largeur" },
+            { "value": "full", "label": "Pleine largeur" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "choices",
+      "name": "Choix multiples",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Type de séance"
+        },
+        {
+          "type": "text",
+          "id": "hint",
+          "label": "Aide",
+          "default": "Plusieurs choix possibles"
+        },
+        {
+          "type": "text",
+          "id": "options",
+          "label": "Options",
+          "info": "Séparez les options par une virgule.",
+          "default": "Noël, Pâques, Portraits, Fratries / groupe, Autre"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "Zone de message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Message"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Exemple affiché dans le champ"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Champ obligatoire",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

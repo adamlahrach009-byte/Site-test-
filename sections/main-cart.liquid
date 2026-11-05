@@ -1,0 +1,76 @@
+<section class="section cart-main bg-cream" style="--pt: 64; --pb: 96;">
+  <div class="page-width page-width--narrow">
+    <header class="page-hero page-hero--center">
+      <h1 class="h1 page-hero__title">{{ 'cart.title' | t }}</h1>
+    </header>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" class="cart card card--prose" novalidate>
+        <ul class="cart__items" role="list">
+          {%- for item in cart.items -%}
+            <li class="cart-item">
+              <a class="cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 240 | image_tag: widths: '120, 180, 240', sizes: '120px', loading: 'lazy', alt: '', class: 'cart-item__img' }}
+                {%- else -%}
+                  {% render 'placeholder', icon: 'image' %}
+                {%- endif -%}
+              </a>
+              <div class="cart-item__details">
+                <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart-item__variant">{{ item.variant.title | escape }}</p>
+                {%- endunless -%}
+                {%- for property in item.properties -%}
+                  {%- assign first_char = property.first | slice: 0 -%}
+                  {%- if property.last != blank and first_char != '_' -%}
+                    <p class="cart-item__variant">{{ property.first }} : {{ property.last }}</p>
+                  {%- endif -%}
+                {%- endfor -%}
+                <p class="cart-item__price">{{ item.final_price | money }}</p>
+              </div>
+              <div class="cart-item__qty">
+                <label class="visually-hidden" for="Quantity-{{ item.key }}">{{ 'cart.quantity_for' | t: title: item.product.title }}</label>
+                <input class="field__input" id="Quantity-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric">
+                <a class="cart-item__remove" href="{{ item.url_to_remove }}" aria-label="{{ 'cart.remove_item' | t: title: item.product.title }}">{{ 'cart.remove' | t }}</a>
+              </div>
+              <p class="cart-item__total">{{ item.final_line_price | money }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="cart__note field field--full">
+          <label class="field__label" for="CartNote">{{ 'cart.note' | t }}</label>
+          <textarea class="field__input field__input--textarea" id="CartNote" name="note" rows="3">{{ cart.note }}</textarea>
+        </div>
+
+        <div class="cart__footer">
+          <p class="cart__subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <strong>{{ cart.total_price | money_with_currency }}</strong>
+          </p>
+          <p class="cart__taxes">{{ 'cart.taxes' | t }}</p>
+          <div class="cart__actions">
+            <button type="submit" class="btn btn--secondary" name="update">{{ 'cart.update' | t }}</button>
+            <button type="submit" class="btn btn--primary btn--lg" name="checkout">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="empty-state card card--prose">
+        <span class="icon-bubble icon-bubble--lg">{% render 'icon', name: 'cart' %}</span>
+        <p>{{ 'cart.empty' | t }}</p>
+        <a class="btn btn--primary" href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Panier",
+  "tag": "div",
+  "class": "section-main-cart",
+  "settings": []
+}
+{% endschema %}

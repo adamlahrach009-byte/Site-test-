@@ -1,0 +1,122 @@
+{%- assign s = section.settings -%}
+{%- capture button_url -%}{% render 'contact-url', link: s.button_link %}{%- endcapture -%}
+
+<section class="section rich-text bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'c' %}
+  <div class="page-width page-width--narrow">
+    {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: s.align %}
+    {%- if s.button_label != blank -%}
+      <div class="section-actions section-actions--{{ s.align }}" data-reveal>
+        <a class="btn btn--primary btn--lg" href="{{ button_url | strip }}">
+          <span>{{ s.button_label | escape }}</span>
+          {% render 'icon', name: 'arrow-right' %}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Texte",
+  "tag": "div",
+  "class": "section-rich-text",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Un titre pour votre message"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Partagez une information importante avec les directions de crèches.</p>"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alignement",
+      "default": "center",
+      "options": [
+        { "value": "center", "label": "Centré" },
+        { "value": "left", "label": "À gauche" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton (facultatif)"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" },
+        { "value": "green", "label": "Vert" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Texte"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,36 @@
+{%- comment -%}
+  Carte produit (collections, recherche).
+  Accepte :
+  - product {Product}
+{%- endcomment -%}
+<article class="product-card card">
+  <a class="product-card__link" href="{{ product.url }}">
+    <div class="product-card__media">
+      {%- if product.featured_media -%}
+        {%- assign card_alt = product.featured_media.alt | default: product.title -%}
+        {{ product.featured_media | image_url: width: 800 | image_tag: widths: '280, 400, 560, 720, 800', sizes: '(min-width: 990px) 280px, (min-width: 750px) 30vw, 45vw', loading: 'lazy', alt: card_alt, class: 'product-card__img' }}
+      {%- else -%}
+        {% render 'placeholder', icon: 'image' %}
+      {%- endif -%}
+      {%- if product.available == false -%}
+        <span class="badge badge--soft product-card__badge">{{ 'products.sold_out' | t }}</span>
+      {%- elsif product.compare_at_price > product.price -%}
+        <span class="badge badge--accent product-card__badge">{{ 'products.on_sale' | t }}</span>
+      {%- endif -%}
+    </div>
+    <div class="product-card__body">
+      <h3 class="product-card__title">{{ product.title | escape }}</h3>
+      <p class="product-card__price">
+        {%- if product.price_varies -%}
+          {%- assign price_min = product.price_min | money -%}
+          {{ 'products.from_price' | t: price: price_min }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+        {%- if product.compare_at_price > product.price -%}
+          <s class="product-card__compare"><span class="visually-hidden">{{ 'products.regular_price' | t }}</span>{{ product.compare_at_price | money }}</s>
+        {%- endif -%}
+      </p>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,46 @@
+{%- comment -%}
+  Photo façon polaroïd, légèrement inclinée, avec ruban adhésif.
+  Accepte :
+  - image {Image} : image (facultatif, placeholder sinon)
+  - alt {String} : texte alternatif (facultatif, alt de l'image sinon)
+  - ratio {String} : 'portrait' | 'square' | 'landscape' | 'natural'
+  - rotate {Number} : inclinaison en degrés
+  - tape {String} : 'yellow' | 'mint' | 'none'
+  - tape_position {String} : 'center' | 'left' | 'right'
+  - caption {String} : légende manuscrite (facultatif)
+  - widths {String} / sizes {String} : réglages responsive
+  - eager {Boolean} : chargement prioritaire (hero)
+  - class {String} : classe supplémentaire
+{%- endcomment -%}
+{%- liquid
+  assign ratio = ratio | default: 'portrait'
+  assign tape = tape | default: 'yellow'
+  assign tape_position = tape_position | default: 'center'
+  assign widths = widths | default: '240, 360, 480, 640, 800, 1000'
+  assign sizes = sizes | default: '(min-width: 990px) 33vw, 90vw'
+  assign rotate = rotate | default: 0
+-%}
+<figure class="polaroid polaroid--{{ ratio }}{% if class %} {{ class }}{% endif %}" style="--rotate: {{ rotate }}deg;">
+  {%- unless tape == 'none' -%}
+    <span class="polaroid__tape polaroid__tape--{{ tape }} polaroid__tape--{{ tape_position }}" aria-hidden="true"></span>
+  {%- endunless -%}
+  <div class="polaroid__media">
+    {%- if image != blank -%}
+      {%- liquid
+        assign img_alt = alt | default: image.alt | default: ''
+        assign focal = image.presentation.focal_point | default: 'center'
+        assign img_style = 'object-position: ' | append: focal
+      -%}
+      {%- if eager -%}
+        {{ image | image_url: width: 1400 | image_tag: widths: widths, sizes: sizes, loading: 'eager', fetchpriority: 'high', preload: true, alt: img_alt, class: 'polaroid__img', style: img_style }}
+      {%- else -%}
+        {{ image | image_url: width: 1400 | image_tag: widths: widths, sizes: sizes, loading: 'lazy', alt: img_alt, class: 'polaroid__img', style: img_style }}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'placeholder', class: 'polaroid__img' %}
+    {%- endif -%}
+  </div>
+  {%- if caption != blank -%}
+    <figcaption class="polaroid__caption">{{ caption }}</figcaption>
+  {%- endif -%}
+</figure>

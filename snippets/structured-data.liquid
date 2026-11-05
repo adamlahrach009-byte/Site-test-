@@ -1,0 +1,72 @@
+{%- comment -%}
+  Données structurées ProfessionalService (page d'accueil).
+  Aucune adresse n'est publiée : seule la zone desservie est indiquée.
+{%- endcomment -%}
+{%- liquid
+  assign business_name = settings.business_name | default: shop.name
+  assign phone_digits = settings.contact_phone | remove: ' ' | remove: '.' | remove: '-' | remove: '/' | remove: '(' | remove: ')'
+  assign business_image = settings.social_image
+  if business_image == blank
+    assign business_image = page_image
+  endif
+  assign has_social = false
+  if settings.social_instagram != blank or settings.social_facebook != blank
+    assign has_social = true
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": {{ shop.url | append: '/#business' | json }},
+    "name": {{ business_name | json }},
+    "url": {{ shop.url | json }},
+    {%- if settings.business_description != blank %}
+    "description": {{ settings.business_description | strip_html | strip_newlines | json }},
+    {%- endif %}
+    {%- if phone_digits != blank %}
+    "telephone": {{ phone_digits | json }},
+    {%- endif %}
+    {%- if settings.contact_email != blank %}
+    "email": {{ settings.contact_email | json }},
+    {%- endif %}
+    {%- if business_image != blank %}
+    "image": {{ business_image | image_url: width: 1200 | prepend: 'https:' | json }},
+    {%- endif %}
+    {%- if has_social %}
+    "sameAs": [
+      {%- if settings.social_instagram != blank %}{{ settings.social_instagram | json }}{% endif -%}
+      {%- if settings.social_instagram != blank and settings.social_facebook != blank %},{% endif -%}
+      {%- if settings.social_facebook != blank %}{{ settings.social_facebook | json }}{% endif -%}
+    ],
+    {%- endif %}
+    "serviceType": "Photographie en crèche",
+    "knowsLanguage": "fr",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Crèches et milieux d'accueil de la petite enfance"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": {{ settings.area_served | default: 'Belgique' | json }}
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Séances photo pour les crèches",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Séances de Noël et de Pâques" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Portraits individuels" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fratries et photos de groupe par section" } }
+      ]
+    }
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ business_name | json }},
+    "url": {{ shop.url | json }},
+    "inLanguage": "fr-BE"
+  }
+</script>

@@ -1,0 +1,69 @@
+{%- paginate search.results by 12 -%}
+  <section class="section search-main bg-cream" style="--pt: 64; --pb: 96;">
+    <div class="page-width">
+      <header class="page-hero page-hero--center">
+        <h1 class="h1 page-hero__title">{{ 'search.title' | t }}</h1>
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+          <label class="visually-hidden" for="SearchInput">{{ 'search.label' | t }}</label>
+          <input class="field__input search-form__input" id="SearchInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}">
+          <button type="submit" class="btn btn--primary">
+            {% render 'icon', name: 'search' %}
+            <span>{{ 'search.submit' | t }}</span>
+          </button>
+        </form>
+        {%- if search.performed -%}
+          <p class="page-hero__text" role="status">
+            {%- if search.results_count > 0 -%}
+              {{ 'search.results' | t: count: search.results_count, terms: search.terms }}
+            {%- else -%}
+              {{ 'search.no_results' | t: terms: search.terms }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </header>
+
+      {%- if search.performed and search.results_count > 0 -%}
+        <ul class="product-grid" role="list">
+          {%- for item in search.results -%}
+            <li>
+              {%- case item.object_type -%}
+                {%- when 'product' -%}
+                  {% render 'product-card', product: item %}
+                {%- when 'article' -%}
+                  <article class="product-card card search-result">
+                    <a class="product-card__link" href="{{ item.url }}">
+                      <div class="product-card__body">
+                        <p class="eyebrow">{{ 'search.article' | t }}</p>
+                        <h2 class="product-card__title">{{ item.title | escape }}</h2>
+                        <p class="search-result__excerpt">{{ item.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+                      </div>
+                    </a>
+                  </article>
+                {%- when 'page' -%}
+                  <article class="product-card card search-result">
+                    <a class="product-card__link" href="{{ item.url }}">
+                      <div class="product-card__body">
+                        <p class="eyebrow">{{ 'search.page' | t }}</p>
+                        <h2 class="product-card__title">{{ item.title | escape }}</h2>
+                        <p class="search-result__excerpt">{{ item.content | strip_html | truncatewords: 22 }}</p>
+                      </div>
+                    </a>
+                  </article>
+              {%- endcase -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+    </div>
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Résultats de recherche",
+  "tag": "div",
+  "class": "section-main-search",
+  "settings": []
+}
+{% endschema %}

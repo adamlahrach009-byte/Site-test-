@@ -1,0 +1,66 @@
+{%- comment -%}
+  Polices (via le font_picker Shopify) et variables CSS issues des réglages du thème.
+{%- endcomment -%}
+{%- liquid
+  assign heading_font = settings.heading_font
+  assign body_font = settings.body_font
+  assign heading_font_bold = heading_font | font_modify: 'weight', 'bold'
+  assign body_font_medium = body_font | font_modify: 'weight', '500'
+  assign body_font_semibold = body_font | font_modify: 'weight', '600'
+  assign body_font_bold = body_font | font_modify: 'weight', 'bold'
+  assign body_font_italic = body_font | font_modify: 'style', 'italic'
+
+  assign c_bg = settings.color_background
+  assign c_text = settings.color_text
+  assign c_primary = settings.color_primary
+  assign c_mint = settings.color_mint
+  assign c_accent = settings.color_accent
+  assign c_header = settings.color_header
+-%}
+<style>
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ heading_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_font_medium | font_face: font_display: 'swap' }}
+  {{ body_font_semibold | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading-style: {{ heading_font.style }};
+    --font-heading-weight: {{ heading_font.weight }};
+    --font-heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+
+    --font-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body-style: {{ body_font.style }};
+    --font-body-weight: {{ body_font.weight }};
+    --font-body-weight-medium: {{ body_font_medium.weight | default: body_font.weight }};
+    --font-body-weight-semibold: {{ body_font_semibold.weight | default: body_font_bold.weight | default: 600 }};
+    --font-body-weight-bold: {{ body_font_bold.weight | default: 700 }};
+    --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+
+    --color-bg: {{ c_bg }};
+    --color-bg-rgb: {{ c_bg.red }}, {{ c_bg.green }}, {{ c_bg.blue }};
+    --color-text: {{ c_text }};
+    --color-text-rgb: {{ c_text.red }}, {{ c_text.green }}, {{ c_text.blue }};
+    --color-text-muted: {{ c_text | color_mix: c_bg, 80 }};
+    --color-primary: {{ c_primary }};
+    --color-primary-rgb: {{ c_primary.red }}, {{ c_primary.green }}, {{ c_primary.blue }};
+    --color-primary-hover: {{ c_primary | color_darken: 7 }};
+    --color-primary-deep: {{ c_primary | color_darken: 14 }};
+    --color-primary-text: {{ settings.color_primary_text }};
+    --color-mint: {{ c_mint }};
+    --color-mint-rgb: {{ c_mint.red }}, {{ c_mint.green }}, {{ c_mint.blue }};
+    --color-mint-deep: {{ c_mint | color_mix: c_primary, 82 }};
+    --color-accent: {{ c_accent }};
+    --color-accent-rgb: {{ c_accent.red }}, {{ c_accent.green }}, {{ c_accent.blue }};
+    --color-accent-soft: {{ c_accent | color_mix: c_bg, 35 }};
+    --color-header: {{ c_header }};
+    --color-header-rgb: {{ c_header.red }}, {{ c_header.green }}, {{ c_header.blue }};
+    --color-white: #ffffff;
+
+    --page-width: {{ settings.page_width }}px;
+    --radius-card: {{ settings.card_radius }}px;
+  }
+</style>

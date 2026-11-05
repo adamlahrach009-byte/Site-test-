@@ -1,0 +1,50 @@
+<section class="section collections-main bg-cream" style="--pt: 64; --pb: 96;">
+  <div class="page-width">
+    <header class="page-hero page-hero--center">
+      <h1 class="h1 page-hero__title">{{ section.settings.title | escape }}</h1>
+    </header>
+
+    {%- if collections.size > 0 -%}
+      <ul class="product-grid" role="list">
+        {%- for collection in collections -%}
+          <li>
+            <article class="product-card card">
+              <a class="product-card__link" href="{{ collection.url }}">
+                <div class="product-card__media">
+                  {%- if collection.featured_image -%}
+                    {%- assign card_alt = collection.featured_image.alt | default: collection.title -%}
+                    {{ collection.featured_image | image_url: width: 800 | image_tag: widths: '280, 400, 560, 720, 800', sizes: '(min-width: 990px) 280px, 45vw', loading: 'lazy', alt: card_alt, class: 'product-card__img' }}
+                  {%- else -%}
+                    {% render 'placeholder', icon: 'images' %}
+                  {%- endif -%}
+                </div>
+                <div class="product-card__body">
+                  <h2 class="product-card__title">{{ collection.title | escape }}</h2>
+                  <p class="product-card__price">{{ 'collections.products' | t: count: collection.products_count }}</p>
+                </div>
+              </a>
+            </article>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="empty-state">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste des collections",
+  "tag": "div",
+  "class": "section-main-list-collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Collections"
+    }
+  ]
+}
+{% endschema %}

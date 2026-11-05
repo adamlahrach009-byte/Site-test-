@@ -1,0 +1,435 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "pill_free": {
+          "type": "pill",
+          "settings": {
+            "text": "Gratuit pour la crèche",
+            "icon": "gift"
+          }
+        },
+        "pill_easy": {
+          "type": "pill",
+          "settings": {
+            "text": "Rien à organiser",
+            "icon": "sparkles"
+          }
+        },
+        "pill_privacy": {
+          "type": "pill",
+          "settings": {
+            "text": "Vie privée respectée",
+            "icon": "shield-check"
+          }
+        }
+      },
+      "block_order": ["pill_free", "pill_easy", "pill_privacy"],
+      "settings": {
+        "badge": "Gratuit pour la crèche",
+        "eyebrow": "Photographe pour les crèches",
+        "heading": "De jolies photos de vos <em>tout-petits</em>, sans rien à organiser",
+        "text": "<p>Nous venons photographier les enfants dans votre crèche et nous nous occupons de la vente aux parents. C'est gratuit pour vous, et une partie des ventes est reversée à la crèche.</p>",
+        "button_1_label": "Proposer une date",
+        "button_1_link": "/pages/contact",
+        "button_2_label": "Voir nos photos",
+        "button_2_link": "/pages/galerie",
+        "show_phone": true,
+        "phone_text": "Ou appelez-nous au",
+        "image_1": "shopify://shop_images/be1d44ca-e889-444c-ac66-45b91690c6b4.jpg",
+        "alt_1": "Un tout-petit photographié en douceur lors d'une séance photo en crèche",
+        "caption_1": "",
+        "image_2": "shopify://shop_images/aea316bc-dba1-49cd-9e13-32a7920c7ba8.jpg",
+        "caption_2": "",
+        "image_3": "shopify://shop_images/b9e89d3e-b264-49c5-b1fe-35067c262f52.jpg",
+        "caption_3": "",
+        "background": "cream",
+        "decor": true,
+        "padding_top": 64,
+        "padding_bottom": 72
+      }
+    },
+    "benefits": {
+      "type": "feature-grid",
+      "blocks": {
+        "card_free": {
+          "type": "card",
+          "settings": {
+            "icon": "gift",
+            "title": "Gratuit pour la crèche",
+            "text": "<p>La séance ne coûte rien à la crèche. Aucun frais, aucun engagement financier pour votre structure.</p>"
+          }
+        },
+        "card_share": {
+          "type": "card",
+          "settings": {
+            "icon": "hand-heart",
+            "title": "Une partie reversée à la crèche",
+            "text": "<p>Une partie des ventes est reversée à la crèche : un petit plus pour vos projets.</p>"
+          }
+        },
+        "card_easy": {
+          "type": "card",
+          "settings": {
+            "icon": "sparkles",
+            "title": "Rien à gérer pour votre équipe",
+            "text": "<p>Vous choisissez une date, nous nous occupons du reste : la séance, la présentation des photos et les commandes des parents.</p>"
+          }
+        },
+        "card_privacy": {
+          "type": "card",
+          "settings": {
+            "icon": "shield-check",
+            "title": "Vie privée respectée",
+            "text": "<p>Seuls les enfants dont les parents ont donné leur accord sont photographiés, et rien n'est publié sans leur accord écrit.</p>"
+          }
+        }
+      },
+      "block_order": ["card_free", "card_share", "card_easy", "card_privacy"],
+      "settings": {
+        "eyebrow": "Pour les crèches",
+        "heading": "Simple pour votre équipe, <em>précieux</em> pour les familles",
+        "text": "<p>Une séance photo en crèche, sans charge supplémentaire pour votre équipe, et de jolis souvenirs pour les parents.</p>",
+        "heading_align": "center",
+        "columns": "4",
+        "background": "mint",
+        "decor": true,
+        "wave": true,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "gallery": {
+      "type": "gallery",
+      "blocks": {
+        "photo_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/aea316bc-dba1-49cd-9e13-32a7920c7ba8.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/b9e89d3e-b264-49c5-b1fe-35067c262f52.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/5ea46bfe-37e0-43ba-81c2-89586fe28d9a.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ac96acdc-1cbf-4864-9008-3277e57dbef6.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4ff46512-6548-48a1-890a-e4b0f846d05e.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/c38d3419-1fea-418d-a562-5152eb7b120e.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": ["photo_1", "photo_2", "photo_3", "photo_4", "photo_5", "photo_6"],
+      "settings": {
+        "eyebrow": "Galerie",
+        "heading": "Un aperçu de nos <em>séances</em>",
+        "heading_tag": "h2",
+        "text": "<p>Quelques moments tout en douceur, pris lors de nos séances en crèche.</p>",
+        "layout": "polaroid",
+        "columns": "3",
+        "note": "Photos publiées avec l'accord écrit des parents",
+        "button_label": "Voir toute la galerie",
+        "button_link": "/pages/galerie",
+        "button_style": "secondary",
+        "background": "cream",
+        "decor": true,
+        "wave": false,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "steps": {
+      "type": "steps",
+      "blocks": {
+        "step_date": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar-heart",
+            "title": "Vous choisissez une date",
+            "text": "<p>Proposez-nous une date ou une période via le formulaire ou par téléphone. Nous convenons ensemble du moment qui convient le mieux à votre crèche.</p>"
+          }
+        },
+        "step_photos": {
+          "type": "step",
+          "settings": {
+            "icon": "camera",
+            "title": "Nous photographions les enfants",
+            "text": "<p>Dans vos locaux, en respectant les siestes, les repas et les activités. Tout se fait en douceur, au rythme des tout-petits.</p>"
+          }
+        },
+        "step_parents": {
+          "type": "step",
+          "settings": {
+            "icon": "hand-heart",
+            "title": "Nous nous occupons des parents",
+            "text": "<p>Nous gérons la vente, et une partie est reversée à la crèche. Votre équipe n'a rien à gérer.</p>"
+          }
+        }
+      },
+      "block_order": ["step_date", "step_photos", "step_parents"],
+      "settings": {
+        "eyebrow": "En 3 étapes",
+        "heading": "Comment ça se <em>passe</em> ?",
+        "text": "<p>Une organisation pensée pour ne rien changer au quotidien de votre crèche.</p>",
+        "step_label": "Étape",
+        "button_label": "Proposer une date",
+        "button_link": "/pages/contact",
+        "background": "warm",
+        "decor": true,
+        "wave": true,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "parents": {
+      "type": "image-with-text",
+      "blocks": {
+        "point_present": {
+          "type": "point",
+          "settings": {
+            "text": "Nous présentons les photos aux parents"
+          }
+        },
+        "point_orders": {
+          "type": "point",
+          "settings": {
+            "text": "Nous gérons la vente et les commandes"
+          }
+        },
+        "point_team": {
+          "type": "point",
+          "settings": {
+            "text": "Rien à gérer pour votre équipe"
+          }
+        }
+      },
+      "block_order": ["point_present", "point_orders", "point_team"],
+      "settings": {
+        "image": "shopify://shop_images/94eeaf4e-3da5-4ed9-b6e6-d9275c4908db.jpg",
+        "alt": "",
+        "caption": "",
+        "image_ratio": "portrait",
+        "image_position": "left",
+        "rotate": -3,
+        "eyebrow": "Côté parents",
+        "heading": "Les commandes des parents ? <em>On s'en occupe.</em>",
+        "text": "<p>Choisir les photos, proposer les cartes ou les boules de Noël, passer les commandes : nous nous en chargeons.</p>",
+        "note": "<p>Les supports (tirages, cartes de Noël, boules de Noël…) se décident ensemble.</p>",
+        "button_label": "",
+        "background": "cream",
+        "decor": true,
+        "wave": false,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "services": {
+      "type": "services",
+      "blocks": {
+        "service_seasons": {
+          "type": "service",
+          "settings": {
+            "icon": "tree",
+            "tag": "Noël & Pâques",
+            "title": "Séances de Noël et de Pâques",
+            "text": "<p>Vous avez déjà le décor, il ne manque que le photographe. De jolis souvenirs de saison pour les familles.</p>"
+          }
+        },
+        "service_portraits": {
+          "type": "service",
+          "settings": {
+            "icon": "smile",
+            "tag": "",
+            "title": "Portraits individuels",
+            "text": "<p>Un portrait tout en douceur de chaque enfant, pris à son rythme, dans un cadre qu'il connaît.</p>"
+          }
+        },
+        "service_groups": {
+          "type": "service",
+          "settings": {
+            "icon": "users",
+            "tag": "",
+            "title": "Fratries et photos de groupe par section",
+            "text": "<p>Les frères et sœurs réunis le temps d'une photo, et chaque section rassemblée pour un souvenir commun.</p>"
+          }
+        }
+      },
+      "block_order": ["service_seasons", "service_portraits", "service_groups"],
+      "settings": {
+        "eyebrow": "Nos séances",
+        "heading": "Ce que nous proposons aux <em>crèches</em>",
+        "text": "<p>Des séances pensées pour les tout-petits, au rythme de la crèche.</p>",
+        "note": "Les supports et la façon de commander se décident avec vous.",
+        "button_label": "",
+        "background": "mint",
+        "decor": true,
+        "wave": true,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "privacy": {
+      "type": "privacy",
+      "blocks": {
+        "commitment_publish": {
+          "type": "commitment",
+          "settings": {
+            "icon": "file-check",
+            "title": "Aucune publication sans accord",
+            "text": "<p>Aucune photo n'est publiée sans l'accord écrit des parents.</p>"
+          }
+        },
+        "commitment_consent": {
+          "type": "commitment",
+          "settings": {
+            "icon": "user-check",
+            "title": "Uniquement avec l'accord des parents",
+            "text": "<p>Seuls les enfants dont les parents ont donné leur accord sont photographiés.</p>"
+          }
+        },
+        "commitment_delete": {
+          "type": "commitment",
+          "settings": {
+            "icon": "trash",
+            "title": "Des photos supprimées ensuite",
+            "text": "<p>Les photos sont supprimées une fois les commandes livrées.</p>"
+          }
+        }
+      },
+      "block_order": ["commitment_publish", "commitment_consent", "commitment_delete"],
+      "settings": {
+        "eyebrow": "Vie privée",
+        "heading": "La vie privée des enfants, <em>notre priorité</em>",
+        "text": "<p>La confiance des familles et de votre équipe compte avant tout. Voici nos engagements.</p>",
+        "background": "green",
+        "decor": true,
+        "wave": true,
+        "padding_top": 104,
+        "padding_bottom": 104
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_cost": {
+          "type": "question",
+          "settings": {
+            "question": "Combien cela coûte-t-il à la crèche ?",
+            "answer": "<p>Rien. La séance est entièrement gratuite pour la crèche, et une partie des ventes lui est reversée.</p>"
+          }
+        },
+        "faq_delivery": {
+          "type": "question",
+          "settings": {
+            "question": "Comment les parents reçoivent-ils leurs photos ?",
+            "answer": "<p>Nous nous occupons de présenter les photos aux parents et de gérer leurs commandes. Les supports et la façon de commander se décident avec vous, selon ce qui convient le mieux à votre crèche.</p>"
+          }
+        },
+        "faq_comfort": {
+          "type": "question",
+          "settings": {
+            "question": "Et si un enfant n'est pas à l'aise ?",
+            "answer": "<p>Nous ne forçons jamais un enfant. S'il n'est pas à l'aise, nous prenons le temps et nous réessayons un peu plus tard, en douceur.</p>"
+          }
+        },
+        "faq_decor": {
+          "type": "question",
+          "settings": {
+            "question": "Faut-il prévoir un décor ?",
+            "answer": "<p>Non, rien de spécial à prévoir. Pour les séances de Noël et de Pâques, vous avez déjà le décor : il ne manque que le photographe. Nous en parlons ensemble avant la séance.</p>"
+          }
+        },
+        "faq_consent": {
+          "type": "question",
+          "settings": {
+            "question": "Les parents doivent-ils donner leur accord ?",
+            "answer": "<p>Oui. Seuls les enfants dont les parents ont donné leur accord sont photographiés, et aucune photo n'est publiée sans leur accord écrit.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_cost", "faq_delivery", "faq_comfort", "faq_decor", "faq_consent"],
+      "settings": {
+        "eyebrow": "Questions fréquentes",
+        "heading": "Vos questions, nos <em>réponses</em>",
+        "text": "<p>Vous ne trouvez pas votre réponse ? Appelez-nous, nous en parlons volontiers.</p>",
+        "show_phone": true,
+        "phone_label": "Une autre question ?",
+        "open_first": true,
+        "exclusive": false,
+        "structured_data": true,
+        "background": "cream",
+        "decor": false,
+        "wave": true,
+        "padding_top": 104,
+        "padding_bottom": 96
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "eyebrow": "Témoignages",
+        "heading": "Ce qu'en disent les <em>crèches</em>",
+        "text": "",
+        "background": "mint",
+        "decor": true,
+        "wave": true,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Gratuit pour la crèche",
+        "heading": "Envie d'une séance photo dans votre crèche ?",
+        "text": "<p>Proposez-nous une date : nous revenons vers vous pour organiser la séance ensemble.</p>",
+        "button_label": "Proposer une date",
+        "button_link": "/pages/contact",
+        "show_phone": true,
+        "phone_label": "Ou appelez-nous",
+        "card_color": "green",
+        "background": "cream",
+        "wave": false,
+        "padding_top": 48,
+        "padding_bottom": 112
+      }
+    }
+  },
+  "order": ["hero", "benefits", "gallery", "steps", "parents", "services", "privacy", "faq", "testimonials", "cta"]
+}
+

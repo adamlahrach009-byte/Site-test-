@@ -1,0 +1,154 @@
+{%- comment -%}
+  Section témoignages : invisible pour les visiteurs tant qu'aucun avis n'est ajouté.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- if section.blocks.size > 0 -%}
+  <section class="section testimonials bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+    {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'a' %}
+    <div class="page-width">
+      {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: 'center' %}
+      <ul class="card-grid card-grid--{% if section.blocks.size == 1 %}1{% elsif section.blocks.size == 2 %}2{% else %}3{% endif %} testimonials__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="testimonial card" data-reveal style="--reveal-order: {{ forloop.index0 | modulo: 3 }};" {{ block.shopify_attributes }}>
+            <figure class="testimonial__figure">
+              {% render 'icon', name: 'quote', class: 'testimonial__quote-mark' %}
+              <blockquote class="testimonial__quote rte">{{ block.settings.quote }}</blockquote>
+              {%- if block.settings.author != blank or block.settings.role != blank -%}
+                <figcaption class="testimonial__author">
+                  <span class="testimonial__avatar" aria-hidden="true">{{ block.settings.author | default: block.settings.role | slice: 0 }}</span>
+                  <span>
+                    {%- if block.settings.author != blank -%}
+                      <span class="testimonial__name">{{ block.settings.author | escape }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.role != blank -%}
+                      <span class="testimonial__role">{{ block.settings.role | escape }}</span>
+                    {%- endif -%}
+                  </span>
+                </figcaption>
+              {%- endif -%}
+            </figure>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <div class="page-width">
+    <div class="editor-empty">
+      <span class="icon-bubble icon-bubble--lg">{% render 'icon', name: 'message' %}</span>
+      <p class="editor-empty__title">{{ 'testimonials.editor_empty_title' | t }}</p>
+      <p>{{ 'testimonials.editor_empty_text' | t }}</p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Témoignages",
+  "tag": "div",
+  "class": "section-testimonials",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Ajoutez uniquement de vrais avis. Tant que cette section ne contient aucun avis, elle reste invisible sur votre site."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Témoignages"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Ce qu'en disent les <em>crèches</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "mint",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Avis",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Avis"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Nom"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Fonction et crèche",
+          "info": "Par exemple : Directrice, crèche …"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Témoignages"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,150 @@
+{
+  "general": {
+    "home": "Accueil",
+    "close": "Fermer",
+    "call": "Appeler le {{ phone }}",
+    "contact_cta": "Proposer une date",
+    "back_home": "Retour à l'accueil",
+    "page": "Page {{ page }}",
+    "tagged": "étiqueté « {{ tags }} »",
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Page précédente",
+      "next": "Page suivante",
+      "page": "Page {{ number }}"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Aller au contenu",
+    "main_navigation": "Navigation principale",
+    "footer_navigation": "Navigation du pied de page",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu",
+    "new_window": "s'ouvre dans un nouvel onglet",
+    "required": "obligatoire",
+    "logo_home": "{{ shop }}, retour à l'accueil",
+    "announcement": "Annonce"
+  },
+  "gallery": {
+    "lightbox_label": "Visionneuse de photos",
+    "open_photo": "Agrandir la photo {{ number }}",
+    "previous": "Photo précédente",
+    "next": "Photo suivante",
+    "close": "Fermer la visionneuse",
+    "counter": "Photo {{ current }} sur {{ total }}",
+    "default_alt": "Photo d'un tout-petit prise lors d'une séance photo en crèche",
+    "editor_empty": "Ajoutez des photos à cette galerie avec le bouton « Ajouter une photo »."
+  },
+  "contact": {
+    "required_note": "Les champs marqués d'un <span aria-hidden=\"true\">*</span> sont obligatoires.",
+    "sending": "Envoi en cours…",
+    "email_label": "E-mail",
+    "choices_hint": "Plusieurs choix possibles.",
+    "error_intro": "Merci de vérifier les informations suivantes :",
+    "yes": "Oui"
+  },
+  "testimonials": {
+    "editor_empty_title": "Section témoignages (invisible pour vos visiteurs)",
+    "editor_empty_text": "Cette section est vide : elle n'apparaît pas sur votre site tant que vous n'avez pas ajouté d'avis. Cliquez sur « Ajouter un avis » dans l'éditeur pour publier vos premiers témoignages."
+  },
+  "footer": {
+    "menu": "Menu",
+    "contact": "Contact",
+    "policies": "Informations",
+    "copyright": "© {{ year }} {{ shop }}"
+  },
+  "products": {
+    "add_to_cart": "Ajouter au panier",
+    "sold_out": "Épuisé",
+    "unavailable": "Indisponible",
+    "quantity": "Quantité",
+    "options": "Choisissez une option",
+    "on_sale": "Promo",
+    "from_price": "À partir de {{ price }}",
+    "regular_price": "Prix habituel",
+    "sale_price": "Prix promotionnel",
+    "taxes_included": "Taxes incluses."
+  },
+  "collections": {
+    "title": "Collections",
+    "empty": "Aucun produit pour le moment.",
+    "products": {
+      "one": "{{ count }} produit",
+      "other": "{{ count }} produits"
+    }
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide pour le moment.",
+    "continue": "Continuer la visite",
+    "remove": "Retirer",
+    "remove_item": "Retirer {{ title }} du panier",
+    "subtotal": "Sous-total",
+    "update": "Mettre à jour",
+    "checkout": "Passer la commande",
+    "taxes": "Taxes et frais de livraison calculés lors du paiement.",
+    "note": "Une précision pour votre commande ?",
+    "product": "Produit",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "quantity_for": "Quantité pour {{ title }}",
+    "total": "Total"
+  },
+  "search": {
+    "title": "Recherche",
+    "label": "Rechercher sur le site",
+    "placeholder": "Que cherchez-vous ?",
+    "submit": "Rechercher",
+    "results": {
+      "one": "{{ count }} résultat pour « {{ terms }} »",
+      "other": "{{ count }} résultats pour « {{ terms }} »"
+    },
+    "no_results": "Aucun résultat pour « {{ terms }} ». Essayez avec un autre mot.",
+    "page": "Page",
+    "article": "Article"
+  },
+  "blogs": {
+    "read_more": "Lire la suite",
+    "back": "Retour aux articles",
+    "empty": "Aucun article pour le moment.",
+    "by": "Par {{ author }}",
+    "comments": {
+      "title": {
+        "one": "{{ count }} commentaire",
+        "other": "{{ count }} commentaires"
+      },
+      "form_title": "Laisser un commentaire",
+      "name": "Nom",
+      "email": "E-mail",
+      "message": "Message",
+      "post": "Publier le commentaire",
+      "moderated": "Les commentaires sont relus avant d'être publiés.",
+      "success_moderated": "Merci ! Votre commentaire sera publié après relecture.",
+      "success": "Merci ! Votre commentaire a bien été publié."
+    }
+  },
+  "password": {
+    "enter": "Accès avec mot de passe",
+    "password": "Mot de passe",
+    "submit": "Entrer",
+    "error": "Le mot de passe est incorrect.",
+    "admin": "Vous êtes le propriétaire de la boutique ?",
+    "admin_link": "Connectez-vous ici",
+    "powered_by": "Boutique propulsée par"
+  },
+  "gift_cards": {
+    "title": "Votre carte-cadeau",
+    "value": "Voici votre carte-cadeau de {{ value }} !",
+    "code": "Code de la carte-cadeau",
+    "copy": "Copier le code",
+    "copied": "Code copié !",
+    "expired": "Expirée",
+    "disabled": "Désactivée",
+    "expires_on": "Valable jusqu'au {{ date }}",
+    "balance": "Solde restant : {{ balance }}",
+    "print": "Imprimer",
+    "shop": "Visiter la boutique",
+    "apple_wallet": "Ajouter à Apple Wallet",
+    "qr_image": "QR code de la carte-cadeau"
+  }
+}

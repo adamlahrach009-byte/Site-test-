@@ -1,0 +1,10 @@
+{%- comment -%}
+  Renvoie le lien tel: du numéro de téléphone du thème (sans espaces).
+  Accepte :
+  - phone {String} : numéro (facultatif, réglage du thème sinon)
+{%- endcomment -%}
+{%- liquid
+  assign phone_value = phone | default: settings.contact_phone
+  assign phone_digits = phone_value | remove: ' ' | remove: '.' | remove: '-' | remove: '/' | remove: '(' | remove: ')'
+  echo 'tel:' | append: phone_digits
+-%}

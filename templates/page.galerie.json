@@ -1,0 +1,129 @@
+{
+  "sections": {
+    "main": {
+      "type": "gallery",
+      "blocks": {
+        "photo_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/aea316bc-dba1-49cd-9e13-32a7920c7ba8.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/b9e89d3e-b264-49c5-b1fe-35067c262f52.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/5ea46bfe-37e0-43ba-81c2-89586fe28d9a.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ac96acdc-1cbf-4864-9008-3277e57dbef6.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4ff46512-6548-48a1-890a-e4b0f846d05e.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/c38d3419-1fea-418d-a562-5152eb7b120e.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/be1d44ca-e889-444c-ac66-45b91690c6b4.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/94eeaf4e-3da5-4ed9-b6e6-d9275c4908db.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        },
+        "photo_9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/9d6ea016-e421-4926-a465-6e6d184bad14.jpg",
+            "alt": "",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6",
+        "photo_7",
+        "photo_8",
+        "photo_9"
+      ],
+      "settings": {
+        "eyebrow": "Galerie",
+        "heading": "Notre <em>galerie</em>",
+        "heading_tag": "h1",
+        "text": "<p>Des moments tout en douceur, pris lors de nos séances. Toutes ces photos sont publiées avec l'accord écrit des parents.</p>",
+        "layout": "masonry",
+        "columns": "3",
+        "note": "Photos publiées avec l'accord écrit des parents",
+        "button_label": "",
+        "button_style": "secondary",
+        "background": "cream",
+        "decor": true,
+        "wave": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Gratuit pour la crèche",
+        "heading": "Envie d'une séance photo dans votre crèche ?",
+        "text": "<p>Proposez-nous une date : nous revenons vers vous pour organiser la séance ensemble.</p>",
+        "button_label": "Proposer une date",
+        "button_link": "/pages/contact",
+        "show_phone": true,
+        "phone_label": "Ou appelez-nous",
+        "card_color": "green",
+        "background": "cream",
+        "wave": false,
+        "padding_top": 32,
+        "padding_bottom": 112
+      }
+    }
+  },
+  "order": [
+    "main",
+    "cta"
+  ]
+}

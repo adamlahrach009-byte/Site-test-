@@ -1,0 +1,27 @@
+{%- comment -%}
+  En-tête de section : surtitre, titre et texte d'introduction.
+  Accepte :
+  - eyebrow {String}
+  - heading {String} (inline richtext, <em> = surlignage jaune)
+  - text {String} (richtext)
+  - tag {String} : 'h1' | 'h2' (par défaut h2)
+  - align {String} : 'center' | 'left'
+  - id {String} : id du titre (facultatif, pour aria-labelledby)
+{%- endcomment -%}
+{%- liquid
+  assign tag = tag | default: 'h2'
+  assign align = align | default: 'center'
+-%}
+{%- if eyebrow != blank or heading != blank or text != blank -%}
+  <div class="section-heading section-heading--{{ align }}" data-reveal>
+    {%- if eyebrow != blank -%}
+      <p class="eyebrow">{{ eyebrow }}</p>
+    {%- endif -%}
+    {%- if heading != blank -%}
+      <{{ tag }} class="section-heading__title {% if tag == 'h1' %}h1{% else %}h2{% endif %} hl"{% if id %} id="{{ id }}"{% endif %}>{{ heading }}</{{ tag }}>
+    {%- endif -%}
+    {%- if text != blank -%}
+      <div class="section-heading__text rte">{{ text }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "blocks": {
+        "creche": {
+          "type": "field",
+          "settings": {
+            "label": "Nom de la crèche",
+            "field_type": "organization",
+            "placeholder": "",
+            "required": true,
+            "width": "half"
+          }
+        },
+        "person": {
+          "type": "field",
+          "settings": {
+            "label": "Personne de contact",
+            "field_type": "name",
+            "placeholder": "",
+            "required": true,
+            "width": "half"
+          }
+        },
+        "email": {
+          "type": "email",
+          "settings": {
+            "label": "E-mail",
+            "placeholder": "",
+            "width": "half"
+          }
+        },
+        "phone": {
+          "type": "field",
+          "settings": {
+            "label": "Téléphone",
+            "field_type": "tel",
+            "placeholder": "",
+            "required": false,
+            "width": "half"
+          }
+        },
+        "city": {
+          "type": "field",
+          "settings": {
+            "label": "Commune",
+            "field_type": "city",
+            "placeholder": "",
+            "required": false,
+            "width": "half"
+          }
+        },
+        "children": {
+          "type": "field",
+          "settings": {
+            "label": "Nombre approximatif d'enfants",
+            "field_type": "number",
+            "placeholder": "Ex. : 35",
+            "required": false,
+            "width": "half"
+          }
+        },
+        "session": {
+          "type": "choices",
+          "settings": {
+            "label": "Type de séance",
+            "hint": "Plusieurs choix possibles",
+            "options": "Noël, Pâques, Portraits, Fratries / groupe, Autre"
+          }
+        },
+        "period": {
+          "type": "field",
+          "settings": {
+            "label": "Période souhaitée",
+            "field_type": "text",
+            "placeholder": "Ex. : début décembre, semaine avant Pâques…",
+            "required": false,
+            "width": "full"
+          }
+        },
+        "message": {
+          "type": "textarea",
+          "settings": {
+            "label": "Message",
+            "placeholder": "Une précision, une question ?",
+            "required": false
+          }
+        }
+      },
+      "block_order": [
+        "creche",
+        "person",
+        "email",
+        "phone",
+        "city",
+        "children",
+        "session",
+        "period",
+        "message"
+      ],
+      "settings": {
+        "eyebrow": "Contact",
+        "heading": "Proposer une <em>date</em>",
+        "intro": "<p>Une séance photo dans votre crèche vous tente ? Remplissez ce court formulaire : nous revenons vers vous pour convenir ensemble d'une date. C'est gratuit pour la crèche.</p>",
+        "show_page_content": false,
+        "form_title": "Votre demande",
+        "submit_label": "Envoyer ma demande",
+        "submit_note": "Nous revenons vers vous pour convenir ensemble d'une date.",
+        "success_title": "Merci, votre demande est bien envoyée !",
+        "success_text": "<p>Nous avons bien reçu votre proposition de date. Nous revenons vers vous pour en parler ensemble.</p>",
+        "error_title": "Oups, votre demande n'a pas pu être envoyée",
+        "phone_title": "Vous préférez téléphoner ?",
+        "phone_text": "<p>Appelez-nous directement, nous répondons volontiers à vos questions.</p>",
+        "point_1": "Gratuit pour la crèche",
+        "point_2": "Rien à organiser pour votre équipe",
+        "point_3": "Vie privée respectée",
+        "background": "cream",
+        "decor": true,
+        "padding_top": 56,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

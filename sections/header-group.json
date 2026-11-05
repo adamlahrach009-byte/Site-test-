@@ -1,0 +1,52 @@
+{
+  "type": "header",
+  "name": "En-tête",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Séances de Noël et de Pâques : proposez dès maintenant une date pour votre crèche",
+        "link": "/pages/contact",
+        "icon": "sparkles",
+        "style": "green"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "link_home": {
+          "type": "link",
+          "settings": {
+            "label": "Accueil",
+            "link": "/"
+          }
+        },
+        "link_gallery": {
+          "type": "link",
+          "settings": {
+            "label": "Galerie",
+            "link": "/pages/galerie"
+          }
+        },
+        "link_contact": {
+          "type": "link",
+          "settings": {
+            "label": "Contact",
+            "link": "/pages/contact"
+          }
+        }
+      },
+      "block_order": ["link_home", "link_gallery", "link_contact"],
+      "settings": {
+        "logo_width": 150,
+        "logo_text": "Quick photo",
+        "cta_label": "Proposer une date",
+        "cta_link": "/pages/contact",
+        "show_phone": true,
+        "phone_label": "Vous préférez téléphoner ?",
+        "sticky": true
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

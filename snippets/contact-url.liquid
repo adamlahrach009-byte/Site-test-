@@ -1,0 +1,16 @@
+{%- comment -%}
+  Renvoie l'URL de la page « Proposer une date ».
+  Accepte :
+  - link {String} : lien choisi dans une section (facultatif, prioritaire)
+{%- endcomment -%}
+{%- liquid
+  if link != blank
+    echo link
+  elsif settings.contact_link != blank
+    echo settings.contact_link
+  elsif pages.contact.url != blank
+    echo pages.contact.url
+  else
+    echo routes.root_url | remove_last: '/' | append: '/pages/contact'
+  endif
+-%}

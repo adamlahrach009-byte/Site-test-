@@ -1,0 +1,69 @@
+{%- assign s = section.settings -%}
+<section class="section page-main bg-{{ s.background }}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: false, variant: 'hero' %}
+  <div class="page-width page-width--narrow">
+    <header class="page-hero page-hero--center">
+      {%- if s.eyebrow != blank -%}
+        <p class="eyebrow hero-anim" style="--d: 0;">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="h1 page-hero__title hero-anim" style="--d: 1;">{{ page.title | escape }}</h1>
+    </header>
+    {%- if page.content != blank -%}
+      <div class="prose card card--prose rte hero-anim" style="--d: 2;">
+        {{ page.content }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contenu de la page",
+  "tag": "div",
+  "class": "section-main-page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre (facultatif)"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

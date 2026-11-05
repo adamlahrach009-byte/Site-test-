@@ -1,0 +1,222 @@
+{%- assign s = section.settings -%}
+{%- capture button_url -%}{% render 'contact-url', link: s.button_link %}{%- endcapture -%}
+
+<section class="section services bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'a' %}
+  <div class="page-width">
+    {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: 'center' %}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="card-grid card-grid--3 services__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign b = block.settings -%}
+          <li class="service-card card{% if b.image != blank %} service-card--image{% endif %}" data-reveal style="--reveal-order: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            {%- if b.image != blank -%}
+              <div class="service-card__media">
+                {%- liquid
+                  assign service_alt = b.alt | default: b.image.alt | default: b.title
+                  assign focal = b.image.presentation.focal_point | default: 'center'
+                  assign img_style = 'object-position: ' | append: focal
+                -%}
+                {{ b.image | image_url: width: 900 | image_tag: widths: '320, 440, 560, 720, 900', sizes: '(min-width: 990px) 380px, (min-width: 750px) 45vw, 90vw', loading: 'lazy', alt: service_alt, class: 'service-card__img', style: img_style }}
+              </div>
+            {%- endif -%}
+            <div class="service-card__body">
+              <div class="service-card__top">
+                <span class="icon-bubble icon-bubble--lg icon-bubble--tone-{{ forloop.index0 | modulo: 4 }}">{% render 'icon', name: b.icon %}</span>
+                {%- if b.tag != blank -%}
+                  <span class="badge badge--soft">{{ b.tag | escape }}</span>
+                {%- endif -%}
+              </div>
+              {%- if b.title != blank -%}
+                <h3 class="service-card__title h4">{{ b.title | escape }}</h3>
+              {%- endif -%}
+              {%- if b.text != blank -%}
+                <div class="service-card__text rte">{{ b.text }}</div>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if s.note != blank or s.button_label != blank -%}
+      <div class="services__footer" data-reveal>
+        {%- if s.note != blank -%}
+          <p class="note-pill note-pill--accent">
+            {% render 'icon', name: 'sparkles' %}
+            <span>{{ s.note | escape }}</span>
+          </p>
+        {%- endif -%}
+        {%- if s.button_label != blank -%}
+          <a class="btn btn--primary btn--lg" href="{{ button_url | strip }}">
+            <span>{{ s.button_label | escape }}</span>
+            {% render 'icon', name: 'arrow-right' %}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Prestations",
+  "tag": "div",
+  "class": "section-services",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Nos séances"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Ce que nous proposons aux <em>crèches</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Des séances pensées pour les tout-petits, au rythme de la crèche.</p>"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note sous les cartes",
+      "default": "Les supports et la façon de commander se décident avec vous."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton (facultatif)"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "mint",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Prestation",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "camera",
+          "options": [
+            { "value": "tree", "label": "Sapin" },
+            { "value": "egg", "label": "Œuf de Pâques" },
+            { "value": "ornament", "label": "Boule de Noël" },
+            { "value": "sparkles", "label": "Étincelles" },
+            { "value": "camera", "label": "Appareil photo" },
+            { "value": "smile", "label": "Sourire" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "users", "label": "Groupe" },
+            { "value": "images", "label": "Photos" },
+            { "value": "star", "label": "Étoile" },
+            { "value": "sun", "label": "Soleil" },
+            { "value": "leaf", "label": "Feuille" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo (facultatif)"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Texte alternatif de la photo"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Étiquette (facultatif)",
+          "info": "Par exemple : « Saisonnier »."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Nom de la prestation"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Décrivez cette prestation en une ou deux phrases.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prestations",
+      "blocks": [
+        { "type": "service", "settings": { "icon": "tree", "title": "Séances de Noël et de Pâques" } },
+        { "type": "service", "settings": { "icon": "smile", "title": "Portraits individuels" } },
+        { "type": "service", "settings": { "icon": "users", "title": "Fratries et photos de groupe par section" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

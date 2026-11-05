@@ -1,0 +1,201 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign use_menu = false
+  if menu != blank and menu.links.size > 0
+    assign use_menu = true
+  endif
+  assign current_path = request.path
+-%}
+{%- capture cta_url -%}{% render 'contact-url', link: section.settings.cta_link %}{%- endcapture -%}
+{%- assign cta_url = cta_url | strip -%}
+
+{%- capture nav_links -%}
+  {%- if use_menu -%}
+    {%- for link in menu.links -%}
+      <li><a class="nav-link" href="{{ link.url }}"{% if link.current or link.url == current_path %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for block in section.blocks -%}
+      {%- if block.settings.label != blank -%}
+        {%- assign block_url = block.settings.link | default: routes.root_url -%}
+        <li {{ block.shopify_attributes }}><a class="nav-link" href="{{ block_url }}"{% if block_url == current_path %} aria-current="page"{% endif %}>{{ block.settings.label | escape }}</a></li>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<header class="site-header{% if section.settings.sticky %} site-header--sticky{% endif %}" data-header>
+  <div class="page-width site-header__inner">
+    {% render 'logo', logo: section.settings.logo, logo_width: section.settings.logo_width, text: section.settings.logo_text, class: 'site-header__logo' %}
+
+    <nav class="site-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+      <ul class="site-nav__list" role="list">
+        {{ nav_links }}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      {%- if section.settings.show_phone and settings.contact_phone != blank -%}
+        <a class="site-header__phone" href="{% render 'phone-href' %}" aria-label="{{ 'general.call' | t: phone: settings.contact_phone }}">
+          {% render 'icon', name: 'phone' %}
+          <span class="site-header__phone-number" aria-hidden="true">{{ settings.contact_phone }}</span>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn--primary btn--sm site-header__cta" href="{{ cta_url }}">
+          {{- section.settings.cta_label | escape -}}
+        </a>
+      {%- endif -%}
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="MobileMenu-{{ section.id }}"
+        data-menu-toggle
+        data-label-open="{{ 'accessibility.open_menu' | t }}"
+        data-label-close="{{ 'accessibility.close_menu' | t }}"
+      >
+        <span class="visually-hidden" data-menu-toggle-label>{{ 'accessibility.open_menu' | t }}</span>
+        <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="MobileMenu-{{ section.id }}" data-mobile-menu hidden>
+    <div class="mobile-menu__panel">
+      <nav aria-label="{{ 'accessibility.main_navigation' | t }}">
+        <ul class="mobile-menu__list" role="list">
+          {{ nav_links }}
+        </ul>
+      </nav>
+      <div class="mobile-menu__footer">
+        {%- if section.settings.cta_label != blank -%}
+          <a class="btn btn--primary btn--lg btn--block" href="{{ cta_url }}">
+            {% render 'icon', name: 'calendar-heart' %}
+            <span>{{ section.settings.cta_label | escape }}</span>
+          </a>
+        {%- endif -%}
+        {%- if settings.contact_phone != blank -%}
+          <a class="mobile-menu__phone" href="{% render 'phone-href' %}">
+            <span class="icon-bubble icon-bubble--sm">{% render 'icon', name: 'phone' %}</span>
+            <span>
+              <span class="mobile-menu__phone-label">{{ section.settings.phone_label }}</span>
+              <span class="mobile-menu__phone-number">{{ settings.contact_phone }}</span>
+            </span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "tag": "div",
+  "class": "section-header",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Image du logo",
+      "info": "Facultatif. Sans image, le logo texte ci-dessous est affiché avec un pictogramme."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Largeur de l'image du logo",
+      "min": 80,
+      "max": 260,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo texte",
+      "default": "Quick photo"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu (facultatif)",
+      "info": "Si vous choisissez un menu, il remplace les liens ajoutés comme blocs ci-dessous."
+    },
+    {
+      "type": "header",
+      "content": "Bouton mis en avant"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texte du bouton",
+      "default": "Proposer une date"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Afficher le téléphone",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Texte au-dessus du téléphone (menu mobile)",
+      "default": "Vous préférez téléphoner ?"
+    },
+    {
+      "type": "header",
+      "content": "Comportement"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "En-tête fixé en haut de l'écran",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Lien",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Texte",
+          "default": "Accueil"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "En-tête"
+    }
+  ]
+}
+{% endschema %}

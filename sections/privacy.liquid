@@ -1,0 +1,163 @@
+{%- assign s = section.settings -%}
+<section class="section privacy bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'c' %}
+  <div class="page-width privacy__grid">
+    <div class="privacy__intro" data-reveal>
+      <span class="privacy__seal" aria-hidden="true">
+        {% render 'icon', name: 'shield-check' %}
+      </span>
+      {%- if s.eyebrow != blank -%}
+        <p class="eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="h2 hl">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.text != blank -%}
+        <div class="privacy__text rte">{{ s.text }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="privacy__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="privacy__item" data-reveal style="--reveal-order: {{ forloop.index }};" {{ block.shopify_attributes }}>
+            <span class="privacy__icon">{% render 'icon', name: block.settings.icon %}</span>
+            <div class="privacy__item-text">
+              {%- if block.settings.title != blank -%}
+                <h3 class="privacy__item-title">{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="rte">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vie privée",
+  "tag": "div",
+  "class": "section-privacy",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Vie privée"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "La vie privée des enfants, <em>notre priorité</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>La confiance des familles et de votre équipe compte avant tout. Voici nos engagements.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "green",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" },
+        { "value": "green", "label": "Vert" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Engagement",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "shield-check",
+          "options": [
+            { "value": "shield-check", "label": "Bouclier" },
+            { "value": "lock", "label": "Cadenas" },
+            { "value": "eye-off", "label": "Œil barré" },
+            { "value": "file-check", "label": "Document validé" },
+            { "value": "user-check", "label": "Personne validée" },
+            { "value": "trash", "label": "Corbeille" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "check-circle", "label": "Coche" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre (facultatif)"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Décrivez cet engagement.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vie privée",
+      "blocks": [
+        { "type": "commitment", "settings": { "icon": "file-check", "text": "<p>Aucune photo n'est publiée sans l'accord écrit des parents.</p>" } },
+        { "type": "commitment", "settings": { "icon": "user-check", "text": "<p>Seuls les enfants dont les parents ont donné leur accord sont photographiés.</p>" } },
+        { "type": "commitment", "settings": { "icon": "trash", "text": "<p>Les photos sont supprimées une fois les commandes livrées.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

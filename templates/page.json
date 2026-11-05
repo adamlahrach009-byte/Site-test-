@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "eyebrow": "",
+        "background": "cream",
+        "decor": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Gratuit pour la crèche",
+        "heading": "Envie d'une séance photo dans votre crèche ?",
+        "text": "<p>Proposez-nous une date : nous revenons vers vous pour organiser la séance ensemble.</p>",
+        "button_label": "Proposer une date",
+        "button_link": "/pages/contact",
+        "show_phone": true,
+        "phone_label": "Ou appelez-nous",
+        "card_color": "green",
+        "background": "cream",
+        "wave": false,
+        "padding_top": 32,
+        "padding_bottom": 112
+      }
+    }
+  },
+  "order": [
+    "main",
+    "cta"
+  ]
+}

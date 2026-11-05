@@ -1,0 +1,326 @@
+{%- liquid
+  assign s = section.settings
+  assign layout_class = 'hero__visual--trio'
+  if s.image_2 == blank and s.image_3 == blank
+    assign layout_class = 'hero__visual--single'
+  elsif s.image_2 == blank or s.image_3 == blank
+    assign layout_class = 'hero__visual--duo'
+  endif
+  assign second_image = s.image_2
+  assign second_caption = s.caption_2
+  if s.image_2 == blank
+    assign second_image = s.image_3
+    assign second_caption = s.caption_3
+  endif
+-%}
+{%- capture primary_url -%}{% render 'contact-url', link: s.button_1_link %}{%- endcapture -%}
+
+<section class="section hero bg-{{ s.background }}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};" aria-labelledby="HeroTitle-{{ section.id }}">
+  {% render 'section-decor', decor: s.decor, wave: false, variant: 'hero' %}
+
+  <div class="page-width hero__grid">
+    <div class="hero__content">
+      {%- if s.badge != blank -%}
+        <p class="badge badge--accent hero__badge hero-anim" style="--d: 0;">
+          {% render 'icon', name: 'gift' %}
+          <span>{{ s.badge | escape }}</span>
+        </p>
+      {%- endif -%}
+      {%- if s.eyebrow != blank -%}
+        <p class="eyebrow hero__eyebrow hero-anim" style="--d: 1;">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="hero__title h-display hl hero-anim" id="HeroTitle-{{ section.id }}" style="--d: 2;">{{ s.heading }}</h1>
+      {%- if s.text != blank -%}
+        <div class="hero__text rte hero-anim" style="--d: 3;">{{ s.text }}</div>
+      {%- endif -%}
+
+      {%- if s.button_1_label != blank or s.button_2_label != blank -%}
+        <div class="hero__actions hero-anim" style="--d: 4;">
+          {%- if s.button_1_label != blank -%}
+            <a class="btn btn--primary btn--lg" href="{{ primary_url | strip }}">
+              {% render 'icon', name: 'calendar-heart' %}
+              <span>{{ s.button_1_label | escape }}</span>
+            </a>
+          {%- endif -%}
+          {%- if s.button_2_label != blank -%}
+            <a class="btn btn--secondary btn--lg" href="{{ s.button_2_link | default: routes.root_url }}">
+              <span>{{ s.button_2_label | escape }}</span>
+              {% render 'icon', name: 'arrow-right' %}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if s.show_phone and settings.contact_phone != blank -%}
+        <p class="hero__phone hero-anim" style="--d: 5;">
+          <span class="icon-bubble icon-bubble--sm">{% render 'icon', name: 'phone' %}</span>
+          <span>{{ s.phone_text | escape }} <a href="{% render 'phone-href' %}">{{ settings.contact_phone }}</a></span>
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="hero__visual {{ layout_class }}">
+      <div class="hero__photo hero__photo--main">
+        {% render 'polaroid',
+          image: s.image_1,
+          alt: s.alt_1,
+          ratio: 'portrait',
+          rotate: -3,
+          tape: 'yellow',
+          caption: s.caption_1,
+          widths: '320, 440, 560, 720, 880, 1040',
+          sizes: '(min-width: 990px) 400px, (min-width: 750px) 50vw, 64vw',
+          eager: true
+        %}
+      </div>
+      {%- if layout_class != 'hero__visual--single' -%}
+        <div class="hero__photo hero__photo--second">
+          {% render 'polaroid',
+            image: second_image,
+            ratio: 'square',
+            rotate: 5,
+            tape: 'mint',
+            tape_position: 'left',
+            caption: second_caption,
+            widths: '200, 280, 360, 480, 600',
+            sizes: '(min-width: 990px) 240px, 40vw'
+          %}
+        </div>
+      {%- endif -%}
+      {%- if layout_class == 'hero__visual--trio' -%}
+        <div class="hero__photo hero__photo--third">
+          {% render 'polaroid',
+            image: s.image_3,
+            ratio: 'square',
+            rotate: -6,
+            tape: 'yellow',
+            tape_position: 'right',
+            caption: s.caption_3,
+            widths: '200, 280, 360, 480, 600',
+            sizes: '(min-width: 990px) 240px, 40vw'
+          %}
+        </div>
+      {%- endif -%}
+      <svg class="hero__doodle hero__doodle--star" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 4c1.6 9.3 5.2 14.4 16 16-10.8 1.6-14.4 6.7-16 16-1.6-9.3-5.2-14.4-16-16 10.8-1.6 14.4-6.7 16-16Z"/></svg>
+      <svg class="hero__doodle hero__doodle--heart" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 40S6 29.5 6 17.5A9.5 9.5 0 0 1 24 13a9.5 9.5 0 0 1 18 4.5C42 29.5 24 40 24 40Z"/></svg>
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="page-width">
+      <ul class="trust-bar hero-anim" role="list" style="--d: 6;">
+        {%- for block in section.blocks -%}
+          <li class="trust-bar__item" {{ block.shopify_attributes }}>
+            <span class="trust-bar__icon">{% render 'icon', name: block.settings.icon %}</span>
+            <span>{{ block.settings.text | escape }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "class": "section-hero",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Textes"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "Gratuit pour la crèche"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Photographe pour les crèches"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "info": "Mettez un mot en italique pour le surligner en jaune.",
+      "default": "De jolies photos de vos <em>tout-petits</em>, sans rien à organiser"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Nous venons photographier les enfants dans votre crèche et nous nous occupons de la vente aux parents. C'est gratuit pour vous, et une partie des ventes est reversée à la crèche.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Boutons"
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Bouton principal",
+      "default": "Proposer une date"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Lien du bouton principal",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Bouton secondaire",
+      "default": "Voir nos photos"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Lien du bouton secondaire"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Afficher le téléphone sous les boutons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone_text",
+      "label": "Texte avant le téléphone",
+      "default": "Ou appelez-nous au"
+    },
+    {
+      "type": "header",
+      "content": "Photos (collage polaroïd)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Photo principale"
+    },
+    {
+      "type": "text",
+      "id": "alt_1",
+      "label": "Texte alternatif de la photo principale",
+      "info": "Décrit la photo pour les personnes malvoyantes et Google."
+    },
+    {
+      "type": "text",
+      "id": "caption_1",
+      "label": "Légende de la photo principale (facultatif)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Deuxième photo"
+    },
+    {
+      "type": "text",
+      "id": "caption_2",
+      "label": "Légende de la deuxième photo (facultatif)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Troisième photo"
+    },
+    {
+      "type": "text",
+      "id": "caption_3",
+      "label": "Légende de la troisième photo (facultatif)"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pastille",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texte",
+          "default": "Gratuit pour la crèche"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "check-circle",
+          "options": [
+            { "value": "check-circle", "label": "Coche" },
+            { "value": "gift", "label": "Cadeau" },
+            { "value": "hand-heart", "label": "Main et cœur" },
+            { "value": "sparkles", "label": "Étincelles" },
+            { "value": "calendar-heart", "label": "Calendrier" },
+            { "value": "shield-check", "label": "Bouclier" },
+            { "value": "lock", "label": "Cadenas" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "smile", "label": "Sourire" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "pill", "settings": { "text": "Gratuit pour la crèche", "icon": "gift" } },
+        { "type": "pill", "settings": { "text": "Rien à organiser", "icon": "sparkles" } },
+        { "type": "pill", "settings": { "text": "Vie privée respectée", "icon": "shield-check" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

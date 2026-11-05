@@ -1,0 +1,188 @@
+{%- assign s = section.settings -%}
+{%- capture button_url -%}{% render 'contact-url', link: s.button_link %}{%- endcapture -%}
+
+<section class="section steps bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'c' %}
+  <div class="page-width">
+    {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: 'center' %}
+
+    {%- if section.blocks.size > 0 -%}
+      <ol class="timeline timeline--{{ section.blocks.size }}" role="list">
+        {%- for block in section.blocks -%}
+          <li class="timeline__step" data-reveal style="--reveal-order: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            <div class="timeline__marker" aria-hidden="true">
+              <span class="timeline__number">{{ forloop.index }}</span>
+              {%- if block.settings.icon != 'none' -%}
+                <span class="timeline__icon">{% render 'icon', name: block.settings.icon %}</span>
+              {%- endif -%}
+            </div>
+            <div class="timeline__body card">
+              <p class="timeline__label">{{ s.step_label | escape }} {{ forloop.index }}</p>
+              {%- if block.settings.title != blank -%}
+                <h3 class="timeline__title h4">{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="timeline__text rte">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+
+    {%- if s.button_label != blank -%}
+      <div class="section-actions" data-reveal>
+        <a class="btn btn--primary btn--lg" href="{{ button_url | strip }}">
+          {% render 'icon', name: 'calendar-heart' %}
+          <span>{{ s.button_label | escape }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Étapes (frise)",
+  "tag": "div",
+  "class": "section-steps",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "En 3 étapes"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Comment ça se <em>passe</em> ?"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Une organisation pensée pour ne rien changer au quotidien de votre crèche.</p>"
+    },
+    {
+      "type": "text",
+      "id": "step_label",
+      "label": "Libellé des étapes",
+      "default": "Étape"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton (facultatif)",
+      "default": "Proposer une date"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton",
+      "info": "Laissez vide pour utiliser la page « Proposer une date »."
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "warm",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "calendar-heart",
+          "options": [
+            { "value": "none", "label": "Aucune" },
+            { "value": "calendar-heart", "label": "Calendrier" },
+            { "value": "camera", "label": "Appareil photo" },
+            { "value": "users", "label": "Groupe" },
+            { "value": "heart", "label": "Cœur" },
+            { "value": "hand-heart", "label": "Main et cœur" },
+            { "value": "images", "label": "Photos" },
+            { "value": "package", "label": "Colis" },
+            { "value": "home", "label": "Maison" },
+            { "value": "smile", "label": "Sourire" },
+            { "value": "sparkles", "label": "Étincelles" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Titre de l'étape"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Décrivez cette étape en une ou deux phrases.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Étapes (frise)",
+      "blocks": [
+        { "type": "step", "settings": { "icon": "calendar-heart", "title": "Vous choisissez une date" } },
+        { "type": "step", "settings": { "icon": "camera", "title": "Nous photographions les enfants" } },
+        { "type": "step", "settings": { "icon": "hand-heart", "title": "Nous nous occupons des parents" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

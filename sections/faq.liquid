@@ -1,0 +1,207 @@
+{%- assign s = section.settings -%}
+<section class="section faq bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'b' %}
+  <div class="page-width faq__grid">
+    <div class="faq__intro">
+      {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, align: 'left' %}
+      {%- if s.show_phone and settings.contact_phone != blank -%}
+        <a class="contact-chip" href="{% render 'phone-href' %}" data-reveal>
+          <span class="icon-bubble">{% render 'icon', name: 'phone' %}</span>
+          <span>
+            <span class="contact-chip__label">{{ s.phone_label | escape }}</span>
+            <span class="contact-chip__value">{{ settings.contact_phone }}</span>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="accordion" data-reveal style="--reveal-order: 1;">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank -%}
+            <details class="accordion__item"{% if s.exclusive %} name="faq-{{ section.id }}"{% endif %}{% if forloop.first and s.open_first %} open{% endif %} {{ block.shopify_attributes }}>
+              <summary class="accordion__summary">
+                <span class="accordion__question">{{ block.settings.question | escape }}</span>
+                <span class="accordion__toggle" aria-hidden="true">{% render 'icon', name: 'plus' %}</span>
+              </summary>
+              <div class="accordion__content rte">
+                {{ block.settings.answer }}
+              </div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- if s.structured_data and section.blocks.size > 0 -%}
+  {%- liquid
+    assign faq_count = 0
+  -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank and block.settings.answer != blank -%}
+            {%- if faq_count > 0 %},{% endif %}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | strip_html | strip | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.answer | strip_html | strip_newlines | strip | json }}
+              }
+            }
+            {%- assign faq_count = faq_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor %}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "class": "section-faq",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Questions fréquentes"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Vos questions, nos <em>réponses</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Vous ne trouvez pas votre réponse ? Appelez-nous, nous en parlons volontiers.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Afficher le téléphone",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Texte au-dessus du téléphone",
+      "default": "Une autre question ?"
+    },
+    {
+      "type": "header",
+      "content": "Accordéon"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Ouvrir la première question",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "exclusive",
+      "label": "Une seule question ouverte à la fois",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "structured_data",
+      "label": "Ajouter les données structurées FAQPage (Google)",
+      "info": "N'utilisez qu'une seule section FAQ par page avec cette option.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Votre question ?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "<p>Votre réponse.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Combien cela coûte-t-il à la crèche ?", "answer": "<p>Rien. La séance est gratuite pour la crèche, et une partie des ventes lui est reversée.</p>" } },
+        { "type": "question", "settings": { "question": "Les parents doivent-ils donner leur accord ?", "answer": "<p>Oui. Seuls les enfants dont les parents ont donné leur accord sont photographiés.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

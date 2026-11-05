@@ -1,0 +1,110 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+-%}
+<section class="section product-main bg-cream" style="--pt: 56; --pb: 96;">
+  <div class="page-width product__grid">
+    <div class="product__media">
+      {%- if product.media.size > 0 -%}
+        <ul class="product__gallery" role="list">
+          {%- for media in product.media -%}
+            <li class="product__gallery-item{% if forloop.first %} product__gallery-item--main{% endif %}">
+              {%- if media.media_type == 'image' -%}
+                {%- assign media_alt = media.alt | default: product.title -%}
+                <a
+                  class="gallery__link product__image-link"
+                  href="{{ media | image_url: width: 2000 }}"
+                  data-lightbox-item
+                  data-lightbox-group="product-{{ product.id }}"
+                  data-src="{{ media | image_url: width: 1600 }}"
+                  data-srcset="{{ media | image_url: width: 800 }} 800w, {{ media | image_url: width: 1200 }} 1200w, {{ media | image_url: width: 1600 }} 1600w"
+                  data-alt="{{ media_alt | escape }}"
+                  aria-haspopup="dialog"
+                >
+                  {%- if forloop.first -%}
+                    {{ media | image_url: width: 1400 | image_tag: widths: '400, 600, 800, 1000, 1200, 1400', sizes: '(min-width: 990px) 560px, 92vw', loading: 'eager', fetchpriority: 'high', alt: media_alt, class: 'product__img' }}
+                  {%- else -%}
+                    {{ media | image_url: width: 600 | image_tag: widths: '200, 300, 400, 600', sizes: '(min-width: 990px) 180px, 30vw', loading: 'lazy', alt: media_alt, class: 'product__img' }}
+                  {%- endif -%}
+                  <span class="visually-hidden">{{ 'gallery.open_photo' | t: number: forloop.index }}</span>
+                </a>
+              {%- else -%}
+                {{ media | media_tag: image_size: '1200x' }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <div class="product__placeholder">{% render 'placeholder', icon: 'image' %}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="product__info">
+      {%- if product.vendor != blank and section.settings.show_vendor -%}
+        <p class="eyebrow">{{ product.vendor | escape }}</p>
+      {%- endif -%}
+      <h1 class="h2 product__title">{{ product.title | escape }}</h1>
+      <p class="product__price">
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="visually-hidden">{{ 'products.sale_price' | t }}</span>
+          <span class="product__price-current">{{ current_variant.price | money }}</span>
+          <s class="product__price-compare"><span class="visually-hidden">{{ 'products.regular_price' | t }}</span>{{ current_variant.compare_at_price | money }}</s>
+        {%- else -%}
+          <span class="product__price-current">{{ current_variant.price | money }}</span>
+        {%- endif -%}
+      </p>
+
+      {%- form 'product', product, id: form_id, class: 'product-form' -%}
+        {%- if product.has_only_default_variant -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {%- else -%}
+          <div class="field field--full">
+            <label class="field__label" for="{{ form_id }}-variant">{{ 'products.options' | t }}</label>
+            <select class="field__input field__input--select" id="{{ form_id }}-variant" name="id">
+              {%- for variant in product.variants -%}
+                <option value="{{ variant.id }}"{% if variant == current_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>
+                  {{ variant.title | escape }} – {{ variant.price | money_without_trailing_zeros | strip_html }}{% unless variant.available %} ({{ 'products.sold_out' | t }}){% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+
+        <div class="product-form__row">
+          <div class="field field--qty">
+            <label class="field__label" for="{{ form_id }}-qty">{{ 'products.quantity' | t }}</label>
+            <input class="field__input" id="{{ form_id }}-qty" type="number" name="quantity" value="1" min="1" inputmode="numeric">
+          </div>
+          <button type="submit" name="add" class="btn btn--primary btn--lg product-form__submit"{% unless current_variant.available %} disabled{% endunless %}>
+            {%- if current_variant.available -%}
+              {{ 'products.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.sold_out' | t }}
+            {%- endif -%}
+          </button>
+        </div>
+        {{ form | payment_terms }}
+      {%- endform -%}
+
+      {%- if product.description != blank -%}
+        <div class="product__description rte">{{ product.description }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "tag": "div",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Afficher la marque",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

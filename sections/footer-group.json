@@ -1,0 +1,55 @@
+{
+  "type": "footer",
+  "name": "Pied de page",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "link_home": {
+          "type": "link",
+          "settings": {
+            "label": "Accueil",
+            "link": "/"
+          }
+        },
+        "link_gallery": {
+          "type": "link",
+          "settings": {
+            "label": "Galerie",
+            "link": "/pages/galerie"
+          }
+        },
+        "link_contact": {
+          "type": "link",
+          "settings": {
+            "label": "Contact",
+            "link": "/pages/contact"
+          }
+        },
+        "link_date": {
+          "type": "link",
+          "settings": {
+            "label": "Proposer une date",
+            "link": "/pages/contact"
+          }
+        }
+      },
+      "block_order": ["link_home", "link_gallery", "link_contact", "link_date"],
+      "settings": {
+        "logo_width": 150,
+        "brand_name": "Quick photo",
+        "tagline": "<p>Photographe pour les crèches. Gratuit pour la crèche, et une partie des ventes lui est reversée.</p>",
+        "cta_label": "Proposer une date",
+        "cta_link": "/pages/contact",
+        "menu_title": "Menu",
+        "contact_title": "Contact",
+        "show_policies": true,
+        "policies_title": "Informations",
+        "bottom_text": "Photographe pour les crèches en Belgique",
+        "background": "mint",
+        "wave": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

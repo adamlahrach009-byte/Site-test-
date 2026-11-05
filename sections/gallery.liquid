@@ -1,0 +1,289 @@
+{%- liquid
+  assign s = section.settings
+  assign group = 'gallery-' | append: section.id
+  assign default_alt = 'gallery.default_alt' | t
+  assign rotations = '-2.5,2,-1.5,3,-2,1.5,2.5,-3,1' | split: ','
+  assign tapes = 'yellow,none,mint,none,yellow,mint,none,yellow,none' | split: ','
+  assign heading_tag = s.heading_tag | default: 'h2'
+
+  case s.columns
+    when '2'
+      assign item_sizes = '(min-width: 990px) 560px, (min-width: 750px) 45vw, 46vw'
+    when '4'
+      assign item_sizes = '(min-width: 990px) 280px, (min-width: 750px) 30vw, 46vw'
+    else
+      assign item_sizes = '(min-width: 990px) 380px, (min-width: 750px) 30vw, 46vw'
+  endcase
+-%}
+{%- capture button_url -%}{{ s.button_link | default: routes.root_url }}{%- endcapture -%}
+
+<section class="section gallery gallery--{{ s.layout }} bg-{{ s.background }}{% if s.wave %} has-wave{% endif %}" style="--pt: {{ s.padding_top }}; --pb: {{ s.padding_bottom }};">
+  {% render 'section-decor', decor: s.decor, wave: s.wave, variant: 'b' %}
+  <div class="page-width">
+    {% render 'section-heading', eyebrow: s.eyebrow, heading: s.heading, text: s.text, tag: heading_tag, align: 'center' %}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="gallery__grid gallery__grid--{{ s.layout }} gallery__grid--cols-{{ s.columns }}" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign image = block.settings.image
+            assign alt = block.settings.alt | default: image.alt | default: default_alt
+            assign i = forloop.index0 | modulo: 9
+            assign rotate = rotations[i]
+            assign tape = tapes[i]
+          -%}
+          <li class="gallery__item" data-reveal style="--reveal-order: {{ forloop.index0 | modulo: 3 }};" {{ block.shopify_attributes }}>
+            {%- if image != blank -%}
+              <a
+                class="gallery__link"
+                href="{{ image | image_url: width: 2000 }}"
+                data-lightbox-item
+                data-lightbox-group="{{ group }}"
+                data-src="{{ image | image_url: width: 1600 }}"
+                data-srcset="{{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 1600 }} 1600w, {{ image | image_url: width: 2000 }} 2000w"
+                data-alt="{{ alt | escape }}"
+                data-caption="{{ block.settings.caption | escape }}"
+                data-width="{{ image.width }}"
+                data-height="{{ image.height }}"
+                aria-haspopup="dialog"
+              >
+                {%- if s.layout == 'polaroid' -%}
+                  {% render 'polaroid',
+                    image: image,
+                    alt: alt,
+                    ratio: 'square',
+                    rotate: rotate,
+                    tape: tape,
+                    caption: block.settings.caption,
+                    widths: '240, 320, 400, 520, 640, 800',
+                    sizes: item_sizes,
+                    class: 'polaroid--interactive'
+                  %}
+                {%- else -%}
+                  {%- liquid
+                    assign focal = image.presentation.focal_point | default: 'center'
+                    assign img_style = 'object-position: ' | append: focal
+                  -%}
+                  <span class="gallery__frame">
+                    {{ image | image_url: width: 1200 | image_tag: widths: '280, 400, 520, 640, 800, 1000, 1200', sizes: item_sizes, loading: 'lazy', alt: alt, class: 'gallery__img', style: img_style }}
+                  </span>
+                {%- endif -%}
+                <span class="gallery__zoom" aria-hidden="true">{% render 'icon', name: 'expand' %}</span>
+                <span class="visually-hidden">{{ 'gallery.open_photo' | t: number: forloop.index }}</span>
+              </a>
+            {%- else -%}
+              {%- if s.layout == 'polaroid' -%}
+                {% render 'polaroid', ratio: 'square', rotate: rotate, tape: tape %}
+              {%- else -%}
+                <span class="gallery__frame gallery__frame--empty">{% render 'placeholder' %}</span>
+              {%- endif -%}
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- elsif request.design_mode -%}
+      <p class="editor-hint">{{ 'gallery.editor_empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if s.note != blank or s.button_label != blank -%}
+      <div class="gallery__footer" data-reveal>
+        {%- if s.note != blank -%}
+          <p class="note-pill">
+            {% render 'icon', name: 'lock' %}
+            <span>{{ s.note | escape }}</span>
+          </p>
+        {%- endif -%}
+        {%- if s.button_label != blank -%}
+          <a class="btn btn--{{ s.button_style }} btn--lg" href="{{ button_url | strip }}">
+            <span>{{ s.button_label | escape }}</span>
+            {% render 'icon', name: 'arrow-right' %}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Galerie photo",
+  "tag": "div",
+  "class": "section-gallery",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Galerie"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Un aperçu de nos <em>séances</em>"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Niveau du titre",
+      "info": "Choisissez « Titre principal (H1) » si cette galerie est le contenu principal de la page.",
+      "default": "h2",
+      "options": [
+        { "value": "h1", "label": "Titre principal (H1)" },
+        { "value": "h2", "label": "Titre de section (H2)" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Quelques moments tout en douceur, pris lors de nos séances en crèche.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Disposition"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Style de la galerie",
+      "default": "polaroid",
+      "options": [
+        { "value": "polaroid", "label": "Polaroïds inclinés" },
+        { "value": "masonry", "label": "Mosaïque élégante" },
+        { "value": "grid", "label": "Grille régulière" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Colonnes (ordinateur)",
+      "default": "3",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Bas de section"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note de confiance",
+      "default": "Photos publiées avec l'accord écrit des parents"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "Voir toute la galerie"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Style du bouton",
+      "default": "secondary",
+      "options": [
+        { "value": "primary", "label": "Plein (vert)" },
+        { "value": "secondary", "label": "Contour" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fond",
+      "default": "cream",
+      "options": [
+        { "value": "cream", "label": "Crème" },
+        { "value": "warm", "label": "Crème chaud" },
+        { "value": "mint", "label": "Menthe" },
+        { "value": "white", "label": "Blanc" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "decor",
+      "label": "Formes décoratives en arrière-plan",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "wave",
+      "label": "Bord supérieur ondulé",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Espacement en haut",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Espacement en bas",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Texte alternatif",
+          "info": "Décrit la photo pour les personnes malvoyantes et Google. Laissez vide pour utiliser celui de l'image."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Légende (facultatif)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Galerie photo",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}
